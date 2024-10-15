@@ -20,7 +20,7 @@ public class AppTest {
 //		mbr.setMemberName("연습99");
 //		mbr.setPhone("010-8888-8888");
 //		mbr.setPassword("9999");
-		/*
+		
 		//인서트 두가지 방법 , 위에껄로 해야 커밋됨
 		if(dao.insertMember(mbr)==1) {
 			sqlSession.commit();
@@ -30,7 +30,6 @@ public class AppTest {
 		if(dao.updateMember(mbr)==1) {
 			sqlSession.commit();
 		}
-		*/
 		if(dao.deleteMember(mbr.getMemberId())==1) {
 			sqlSession.commit();
 		}

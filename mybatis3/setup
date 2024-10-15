@@ -33,3 +33,14 @@ git : 이력관리, 변하는 시점의 스냅샷을 commit으로 찍어줌
                 기본 main              |         origin 원격
 
 public webmaster
+웹앱.
+
+백앤드 : db처리.자바(python)
+프런트앤드 :화면제어. 자바스크립트
+
+MemberAddServlet
+서블릿 주소 = http://localhost/mybatis3/MemberAddServlet
+ 
+html 주소 = http://localhost/mybatis3/html/memberAdd.html 
+-> 찾을때 ../MemberAddServlet으로 해야됨
+
