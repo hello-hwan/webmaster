@@ -1,0 +1,35 @@
+이클립스 - dynamic web project - 이름은 mybatis3 (다이나믹 웹 모듈 버전 4.0 -톰캣 9.0과 호환) - next, next, generate 체크 후 finish
+(이클립스 - window perspective - java EE)
+다운로드 파일 : http://tomcat.apache.org 사이트 - 톰캣 9.0 64-bit-windows zip 다운 후 D:java안에 압출풀기 (window 안 들어가게
+이클립스 - window -preference - server - runtime environment - add - apache > 9.0 > next > 압축 푼 폴더 위치 치정 - apply and close
+
+src - wep - 우클릭 - html파일 index 제목으로 생성 - 캐릭터셋 utf-8로 변경
+이클립스 - window - preference - enc(인코더) 검색후 html/css/jsp 전부 iso-utf-8로 변경
+mybatis3 - 우클릭 - run as - run on server - apache > tomcat9.0 > next > finish - 에러 - 8080포트 ->수정필요
+윈도우 - show view  - server -서버 안에 있는거 더블클릭 - http/1.1 -80으로 변경
+mybatis3 -우클릭 - run as - run on server - localhost를 아이피주소로 변경 
+
+자바 src - 프로젝트 파일 생성 - 클래스 생성
+
+project lombok 사이트에서 롬복 설치파일 받아서 cmd - cd Downloads후 dir 후 java -jar lombok.jar 엔터 로 실행
+메이븐 리포지터리 project lombok 최신 라이브러리 다운 (mybatis 최신 라이브러리 다운)
+이클립스 빌드밑에 main java webapp WEB-INF lib에 라이브러리 파일 삽입후 저장
+
+mybatis3 프로젝트 우클릭 - 빌드패스 - 컨피겨 빌드패스 - 소스 - 리소스 - 아래에 있는거 리무브 - 
+
+src/main/resources 아래 config 폴더 만들고 - 밑에 mybatis-config.xml 파일 생성
+그 파일안에 XML에서 SqlSessionFactory 빌드하기 이거 두번째거 복붙
+오류뜨면 이클립스 - window -preference -maven 클릭후 네번째꺼 해제 -> 체크, 체크 -> 해제
+
+마이베티스 데이터베이스 연결문 - https://mybatis.org/mybatis-3/ko/index.html 여기순서
+
+mybatis
+
+--깃허브
+repository - 저장공간 (여러개 만들수있음, 프로젝트를 저장공간에 올림
+git : 이력관리, 변하는 시점의 스냅샷을 commit으로 찍어줌
+상태 - unstaging(이력관리대상이 아니다.) > staging(이력관리대상이다.) 
+> commit(변경 시점의 소스의 스냅샷을 찍어줌.) > push (로컬 피시에서 작업한 것은 push를 해야 git에 동기화됨)
+                기본 main              |         origin 원격
+
+public webmaster
