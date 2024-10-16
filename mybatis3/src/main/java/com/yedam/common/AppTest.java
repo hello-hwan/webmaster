@@ -17,14 +17,15 @@ public class AppTest {
 		Member mbr = new Member();
 		
 		mbr.setMemberId("test99");
-//		mbr.setMemberName("연습99");
-//		mbr.setPhone("010-8888-8888");
-//		mbr.setPassword("9999");
+		mbr.setMemberName("연습99");
+		mbr.setPhone("010-8888-8888");
+		mbr.setPassword("9999");
 		
 		//인서트 두가지 방법 , 위에껄로 해야 커밋됨
 		if(dao.insertMember(mbr)==1) {
 			sqlSession.commit();
 		}
+		/*
 		dao.insertMember(mbr);
 		
 		if(dao.updateMember(mbr)==1) {
@@ -33,7 +34,7 @@ public class AppTest {
 		if(dao.deleteMember(mbr.getMemberId())==1) {
 			sqlSession.commit();
 		}
-		
+		*/
 		List<Member> result = dao.members();
 		for(Member member : result) {
 			System.out.println(member.toString());

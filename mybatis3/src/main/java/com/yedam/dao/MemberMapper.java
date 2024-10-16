@@ -11,4 +11,9 @@ public interface MemberMapper {
 	public int insertMember(Member member);
 	public int updateMember(Member member);
 	public int deleteMember(String memberId);
+	
+	//8번 직접 타자 침
+	public Member selectMember(String memberId); //단건조회
+	//9번 membermapperxml로 이동
+	//10번 member control
 }

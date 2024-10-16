@@ -1,4 +1,61 @@
-mybatis는 jdbc로 구분됨
+
+index.jsp가 가장 먼저 실행
+
+case 1: 조회 -> 수정 -> 입력
+case 2: 조회 -> 입력 -> 수정
+
+서비스로직 (조회, 수정, 입력을 각각 만들어서 순서는 원하는대로)
+
+com.yedam.commom  - 공통사용.
+         .vo      - vo클래스.
+         .mapper  - 매퍼관련.
+         .service - 업무로직.
+         .web     - 서블릿.
+
+list.do
+add.do
+
+memberList.do -> memberList.jsp
+
+url:memberList.do
+오류뜰때 체크 해야될 곳
+1)FrontController
+2)url-control
+3)MembeListControl (mapper)
+4)memberList.jsp
+
+JSP 요청 - 응답
+
+WEB-INF 밑에 jsp두면 접근불가
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 이클립스 - dynamic web project - 이름은 mybatis3 (다이나믹 웹 모듈 버전 4.0 -톰캣 9.0과 호환) - next, next, generate 체크 후 finish
