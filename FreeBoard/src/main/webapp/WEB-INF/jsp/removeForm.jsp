@@ -5,7 +5,7 @@
 <!-- header, footer 붙여넣기 -->
 <jsp:include page="../includes/header.jsp"></jsp:include>
 
-<h3>수정화면(modifyForm.jsp)</h3>
+<h3>삭제화면(removeForm.jsp)</h3>
 
 <%
 String msg = (String) request.getAttribute("msg");
@@ -22,11 +22,11 @@ BoardVO board = (BoardVO) request.getAttribute("boardvo");
 
 <% } %>
 
-<form action="modifyBoard.do" method="post">
+	<!-- action은 form이 서브밋됐을때 호출할페이지 -->
+<form action="deleteBoard.do" method="post">
 
 <input type="hidden" name = "bno" value="<%=board.getBoardNo() %>">
 
-	<!-- action은 form이 서브밋됐을때 호출할페이지 -->
 	<table class="table">
 		<tr>
 			<th>글번호</th>
@@ -51,12 +51,11 @@ BoardVO board = (BoardVO) request.getAttribute("boardvo");
 		</tr>
 
 		<tr>
-			<td colspan="4" align="center"><input type="submit" value="저장"
+			<td colspan="4" align="center"><input type="submit" value="삭제"
 				class="btn btn-success"> <!-- 버튼은 밸류 없이 태그사이에 문자넣어야됨 --> <input
 				type="reset" value="취소" class="btn btn-warning"></td>
 		</tr>
-
-
+		
 	</table>
 
 </form>

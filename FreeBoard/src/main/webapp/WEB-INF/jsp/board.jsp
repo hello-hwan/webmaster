@@ -59,7 +59,11 @@ document.querySelector('input[value = "수정"]')
                   .addEventListener('click',function(e){
                 	  location.href = 'modifyBoard.do?bno=<%=board.getBoardNo()%>';
                   });
-                      
+
+document.querySelector('input[value = "삭제"]')
+.addEventListener('click',function(e){
+	  location.href = 'deleteBoard.do?bno=<%=board.getBoardNo()%>';
+});
 
 
 </script>
