@@ -32,32 +32,6 @@ WEB-INF 밑에 jsp두면 접근불가
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 이클립스 - dynamic web project - 이름은 mybatis3 (다이나믹 웹 모듈 버전 4.0 -톰캣 9.0과 호환) - next, next, generate 체크 후 finish
 (이클립스 - window perspective - java EE)
 다운로드 파일 : http://tomcat.apache.org 사이트 - 톰캣 9.0 64-bit-windows zip 다운 후 D:java안에 압출풀기 (window 안 들어가게
@@ -105,3 +79,58 @@ html 주소 = http://localhost/mybatis3/html/memberAdd.html
 -> 찾을때 ../MemberAddServlet으로 해야됨
 
 xml - 기능구현
+
+
+select *
+from tbl_member;
+
+create table tbl_board (
+    board_no number primary key, --게시글번호
+    title varchar2(100) not null, --제목
+    content varchar2(1000) not null, --내용
+    writer varchar2(50) not null, --작성자
+    view_cnt number default 0, --조회수
+    write_date date default sysdate, --글작성일시
+    update_date date default sysdate -- 최종수정일
+);
+
+create sequence board_seq;
+--sample date 생성
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, '게시글테스트', '글작성내용입니다', 'user01');
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, 'dd익히기', '내용입니다', 'user111');
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, 'HTML', 'javascript', 'user12');
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, 'JSP익히기', '서블릿 중요 내용입니다', 'user24');
+
+commit;
+
+select m.member_name, b.*
+from tbl_board b join tbl_member m
+                 on b.writer = m.member_id
+order by board_no;
+
+insert into tbl_board (board_no, title, content, writer)
+select board_seq.nextval, title, content, writer
+from tbl_board;
+
+commit;
+
+--페이징. 1페이지당 5건씩 출력.
+--board_no기준으로 5건씩 정렬
+--:붙이면 파라미터로 사용가능 page가 파라미터 매개변수
+select b.*
+from (select rownum rn, a.*
+      from (select *
+            from tbl_board
+            order by board_no) a) b
+where b.rn > (:page -1) *5
+  and b.rn <= (:page *5);
+
+
