@@ -22,9 +22,7 @@ System.out.println(list);
 			<td><%=mvo.getMemberName()%></td>
 			<td><%=mvo.getPhone()%></td>
 		</tr>
-		<%
-		}
-		%>
+		<% } %>
 	</tbody>
 </table>
 
