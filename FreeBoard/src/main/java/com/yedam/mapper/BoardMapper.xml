@@ -13,14 +13,28 @@
 		,write_date
 		,update_date
 		from tbl_board
-		order by board_no
+		order by board_no desc
 	</select>
-
-	<select id="listWithPage" parameterType="int">
+	
+	<select id="listWithPage" parameterType="com.yedam.common.SearchDTO">
 		select b.*
 		from (select rownum rn, a.*
 		      from (select *
 		            from tbl_board
+		            <where>
+		            <choose>
+		            <when test="searchCondition == 'T'.toString()">
+		            title like '%'||#{keyword}||'%'
+		            </when>
+		            <when test="searchCondition == 'W'.toString()">
+		            writer like '%'||#{keyword}||'%'
+		            </when>
+		            <when test="searchCondition == 'TW'.toString()">
+		            (title like '%'||#{keyword}||'%') 
+		            or (writer like '%'||#{keyword}||'%')
+		            </when>
+		            </choose>
+		            </where>
 		            order by board_no) a) b
 		<!-- 오라클은 :page로 매개변수로 인식 -->
 		where b.rn > (#{page} -1) *5
@@ -77,4 +91,26 @@
 		view_cnt = view_cnt +1
 		where board_no = #{boardNo}
 	</update>
+
+	<!-- 페이징 카운트 -->
+	<select id="selectCount" resultType="int">
+		select count(1)
+		from tbl_board
+		<where>
+			<choose>
+				<when test="searchCondition == 'T'.toString()">
+					title like '%'||#{keyword}||'%'
+				</when>
+				<when test="searchCondition == 'W'.toString()">
+					writer like '%'||#{keyword}||'%'
+				</when>
+				<when test="searchCondition == 'TW'.toString()">
+					(title like '%'||#{keyword}||'%')
+					or (writer like '%'||#{keyword}||'%')
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	
 </mapper>

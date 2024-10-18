@@ -10,6 +10,7 @@
 <%
 BoardVO board = (BoardVO) request.getAttribute("boardvo");
 //date포맷(2024-10-09 12:22:33)
+String pg = (String) request.getAttribute("page");
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 %>
 
@@ -57,13 +58,12 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 <script>
 document.querySelector('input[value = "수정"]')
                   .addEventListener('click',function(e){
-                	  location.href = 'modifyBoard.do?bno=<%=board.getBoardNo()%>';
+                	  location.href = 'modifyBoard.do?page=<%=pg%>&bno=<%=board.getBoardNo()%>';
                   });
 
 document.querySelector('input[value = "삭제"]')
 .addEventListener('click',function(e){
-	  location.href = 'deleteBoard.do?bno=<%=board.getBoardNo()%>';
+	  location.href = 'deleteBoard.do?page=<%=pg%>&bno=<%=board.getBoardNo()%>';
 });
-
 
 </script>

@@ -6,12 +6,10 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri= "http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!-- header, footer 붙여넣기 -->
 <jsp:include page="../includes/header.jsp"></jsp:include>
-
-
-
 
 <h3>글목록(boardList.jsp)</h3>
 
@@ -61,17 +59,17 @@ kw = kw == null ? "" : kw;  //널 값을 처리하기.
 		</tr>
 	</thead>
 	<tbody>
-		<%
-		for (BoardVO board : list) {
-			String wdate = sdf.format(board.getWriteDate());
-		%>
+	
+		<c:forEach var="board" items="${boardList }">
 		<tr>
-			<td><%=board.getBoardNo()%></td>
-			<td><a href='board.do?page=<%=paging.getPage() %>&bno=<%=board.getBoardNo()%>'><%=board.getTitle()%></a></td>
-			<td><%=board.getWriter()%></td>
-			<td><%=wdate%></td>
+			<td><c:out value="${board.boardNo}" /></td>
+			<td><a href='board.do?searchCondition=${searchCondition }&keyword=${keyword}&page=${page.page }&bno=${board.boardNo}'>${board.title}</a></td>
+			<td><c:out value="${board.writer}" /></td>
+			<td><fmt:formatDate value="${board.writer}" pattern="yyyy.MM.dd HH:mm:ss" /></td>
+			<td><c:out value="${board.viewCnt}" /></td>
 		</tr>
-		<% } %>
+		</c:forEach>
+
 	</tbody>
 </table>
 

@@ -29,7 +29,6 @@
   where member_id = #{memberId}<!-- 메소드 매개변수와 동일한거 넣으면됨 -->
   </delete>
   
-  
   <!-- 9번 selectMember 구현 객체  -->
   <select id="selectMember" parameterType = "string" resultType="com.yedam.vo.MemberVO">
   select member_id
@@ -42,5 +41,12 @@
   where member_id = #{memberId}
   </select>
   
+  <!-- 로그인 -->
+  <select id = "loginMember" resultType = "com.yedam.vo.MemberVO">
+  select *
+  from tbl_member
+  where member_id = #{id}
+    and password = #{pw}
+  </select>
   
 </mapper>

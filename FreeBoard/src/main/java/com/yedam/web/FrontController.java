@@ -42,6 +42,10 @@ public class FrontController extends HttpServlet{
 		map.put("/modifyBoard.do", new ModifyBoardControl());
 		//글삭제
 		map.put("/deleteBoard.do",new RemoveBoardControl());
+		//로그인
+		map.put("/loginForm.do", new LoginControl());
+		map.put("/logOut.do", new LogOutControl());
+		
 	}
 	
 	@Override
@@ -56,6 +60,5 @@ public class FrontController extends HttpServlet{
 		Control control = map.get(page); //키를 넣으면 반환해줌
 		control.exec(req, resp);
 	}
-	
 	
 }

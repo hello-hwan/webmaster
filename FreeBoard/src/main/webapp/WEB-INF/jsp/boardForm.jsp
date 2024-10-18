@@ -8,6 +8,7 @@
 
 <%
 String msg = (String) request.getAttribute("msg");
+String logId = (String) session.getAttribute("logId");
 %>
 
 <p style = "color:red;"> <% if(msg != null){ %></p>
@@ -17,6 +18,7 @@ String msg = (String) request.getAttribute("msg");
 <%} %>
 
 <form action="addBoard.do" method="post"> <!-- action은 form이 서브밋됐을때 호출할페이지 -->
+<input type = "text" name="writer" class= "form-control" value ="<%=logId %>">
 	<table class="table">
 		<tr>
 			<th>제목</th>
@@ -30,7 +32,8 @@ String msg = (String) request.getAttribute("msg");
 		
 		<tr>
 			<th>작성자</th>
-			<td><input type = "text" name="writer" class= "form-control"></td>
+			<td><%=logId %></td>
+			
 		</tr>
 		
 		<tr>
