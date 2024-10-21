@@ -29,7 +29,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	</thead>
 	<tr>
 		<th>제목</th>
-		<td colspan="3"><input type = "text" name = "title" placeholder="제목"></td>
+		<td><input type = "text" name = "title" placeholder="제목"></td>
+		<th>작성자</th>
+		<td><input type = "text" name = "writer" placeholder="글쓴이"></td>
 	</tr>
 
 	<tr>
@@ -38,11 +40,15 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		<td colspan="3"><input type = "text" name = "content" placeholder="내용"></td>
 	</tr>
 
+<%if ( board.getImg() != null ){ %>
 	<tr>
-		<th>작성자</th>
-		<td colspan="3"><input type = "text" name = "writer" placeholder="글쓴이"></td>
+		<th>이미지</th>
+		<td colspan="3">
+		<img src="images/<%=board.getImg() %>" width="150px">
+		
+		</td>
 	</tr>
-
+<%} %>
 	<tr>
 		<th>작성일시</th>
 		<td colspan="3"><%=sdf.format(board.getWriteDate()) %></td>
@@ -59,6 +65,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 document.querySelector('input[value = "수정"]')
                   .addEventListener('click',function(e){
                 	  location.href = 'modifyBoard.do?page=<%=pg%>&bno=<%=board.getBoardNo()%>';
+// searchCondition=${searchCondition}&keyword=${keyword}&page=${page}&bno=${bno}
                   });
 
 document.querySelector('input[value = "삭제"]')

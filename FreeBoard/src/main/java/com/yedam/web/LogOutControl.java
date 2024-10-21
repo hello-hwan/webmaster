@@ -19,5 +19,5 @@ public class LogOutControl implements Control {
 		session.invalidate();
 		req.getRequestDispatcher("WEB-INF/jsp/loginForm.jsp").forward(req, resp);
 	}
-
+	
 }

@@ -35,7 +35,7 @@
 		            </when>
 		            </choose>
 		            </where>
-		            order by board_no) a) b
+		            order by board_no desc) a) b
 		<!-- 오라클은 :page로 매개변수로 인식 -->
 		where b.rn > (#{page} -1) *5
 		<!-- <를 태그가 아닌 연산자로 인식 -->
@@ -47,9 +47,9 @@
 	<!-- ;들어가면 구문오류 -->
 	<insert id="insertBoard" parameterType="board">
 		insert into tbl_board
-		(board_no, title, content, writer)
+		(board_no, title, content, writer, img)
 		values (board_seq.nextval, #{title},
-		#{content}, #{writer})
+		#{content}, #{writer}, #{img})
 	</insert>
 
 	<update id="updateBoard" parameterType="board">
@@ -79,6 +79,7 @@
 		,view_cnt
 		,write_date
 		,update_date
+		,img
 		from tbl_board
 		where
 		board_no = #{boardNo}
@@ -111,6 +112,5 @@
 			</choose>
 		</where>
 	</select>
-	
 	
 </mapper>

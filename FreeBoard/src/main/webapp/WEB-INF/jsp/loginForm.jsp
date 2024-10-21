@@ -10,15 +10,16 @@
 <form action="loginForm.do" method="post">
 	<table class="table">
 		<tr>
-			<th>아이디</th>
-			<td><input type="text" name="logId"></td>
+			<th class="col-sm-4">아이디</th>
+			<td><input type="text" name="logId" class="form-control"></td>
 		</tr>
 		<tr>
-			<th>비밀번호</th>
-			<td><input type="password" name="logPw"></td>
+			<th class="col-sm-4">비밀번호</th>
+			<td><input type="password" name="logPw" class="form-control"></td>
 		</tr>
 		<tr>
-			<td colspan="2"><button type="submit">로그인</button></td>
+			<td align="center" colspan="2">
+			<button type="submit" class="btn btn-primary">로그인</button></td>
 		</tr>
 	</table>
 </form>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yedam.common.Control;
 
 //프로젝트할때는 서블릿 하나만 만든다. 많으면 찾기 힘들어서
-@WebServlet("*.do")// 뭔지는 몰라도 끝에 .do로 끝나면 실행 ex> abc.do, do.do
+// @WebServlet("*.do")// 뭔지는 몰라도 끝에 .do로 끝나면 실행 ,web.xml에 등록
 public class FrontController extends HttpServlet{
 	Map<String, Control> map;
 	
@@ -23,6 +23,7 @@ public class FrontController extends HttpServlet{
 		System.out.println("객체생성");
 		map = new HashMap<>();
 	}
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		//되는지 확인용  System.out.println("init호출");
@@ -46,6 +47,7 @@ public class FrontController extends HttpServlet{
 		map.put("/loginForm.do", new LoginControl());
 		map.put("/logOut.do", new LogOutControl());
 		
+		map.put("/javascript.do", new JavaScriptControl());
 	}
 	
 	@Override

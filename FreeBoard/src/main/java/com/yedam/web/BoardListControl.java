@@ -45,6 +45,6 @@ public class BoardListControl implements Control {
 		req.setAttribute("keyword", kw);
 		
 		//jsp 페이지
-		req.getRequestDispatcher("WEB-INF/jsp/boardList.jsp").forward(req, resp);
+		req.getRequestDispatcher("board/boardList.tiles").forward(req, resp);
 	}
 }

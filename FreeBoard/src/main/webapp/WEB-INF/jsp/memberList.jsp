@@ -3,9 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<!-- header, footer 붙여넣기 -->
-<jsp:include page="../includes/header.jsp"></jsp:include>
-
 <h3>회원목록</h3>
 <%
 //(List<MemberVO>) : 오브젝트타입을 List 타입으로 변환
@@ -25,6 +22,3 @@ System.out.println(list);
 		<% } %>
 	</tbody>
 </table>
-
-<!-- header, footer 붙여넣기 -->
-<jsp:include page="../includes/footer.jsp"></jsp:include>

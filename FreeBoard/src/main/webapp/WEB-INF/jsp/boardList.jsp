@@ -7,12 +7,6 @@
 
 <%@ taglib uri= "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- header, footer 붙여넣기 -->
-<jsp:include page="../includes/header.jsp"></jsp:include>
-
-
-
-
 <h3>글목록(boardList.jsp)</h3>
 
 <%
@@ -121,6 +115,3 @@ kw = kw == null ? "" : kw;  //널 값을 처리하기.
 	</ul>
 </nav>
 
-
-<!-- header, footer 붙여넣기 -->
-<jsp:include page="../includes/footer.jsp"></jsp:include>
