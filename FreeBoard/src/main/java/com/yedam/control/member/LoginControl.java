@@ -1,4 +1,4 @@
-package com.yedam.web;
+package com.yedam.control.member;
 
 import java.io.IOException;
 
@@ -21,7 +21,6 @@ public class LoginControl implements Control {
 		//id와 pw를 파라미터로 받아서 아래쪽?에 넣을것
 		//로그인화면밑에 폼 태그를 넣어서 파라미터(네임속성)을 전달해서 id, pw로 체크
 		//체크 되면 보드리스트로 만들어낼것
-
 		
 		if(req.getMethod().equals("GET")) {
 			req.getRequestDispatcher("WEB-INF/jsp/logForm.jsp").forward(req, resp);

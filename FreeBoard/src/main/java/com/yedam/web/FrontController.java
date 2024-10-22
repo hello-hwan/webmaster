@@ -12,6 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.common.Control;
+import com.yedam.control.board.AddBoardControl;
+import com.yedam.control.board.AddBoardForm;
+import com.yedam.control.board.BoardControl;
+import com.yedam.control.board.BoardListControl;
+import com.yedam.control.board.ModifyBoardControl;
+import com.yedam.control.board.RemoveBoardControl;
+import com.yedam.control.member.AddMemberJson;
+import com.yedam.control.member.DelMemberCont;
+import com.yedam.control.member.LogOutControl;
+import com.yedam.control.member.LoginControl;
+import com.yedam.control.member.MemberAddControl;
+import com.yedam.control.member.MemberAddformControl;
+import com.yedam.control.member.MemberJsonCont;
+import com.yedam.control.member.MemberListControl;
+import com.yedam.control.reply.ReplyListCont;
 
 //프로젝트할때는 서블릿 하나만 만든다. 많으면 찾기 힘들어서
 // @WebServlet("*.do")// 뭔지는 몰라도 끝에 .do로 끝나면 실행 ,web.xml에 등록
@@ -48,6 +63,14 @@ public class FrontController extends HttpServlet{
 		map.put("/logOut.do", new LogOutControl());
 		
 		map.put("/javascript.do", new JavaScriptControl());
+		
+		//json관련
+		map.put("/memberJson.do", new MemberJsonCont());
+		map.put("/addMemberJson.do", new AddMemberJson());
+		map.put("/removeMemberJson.do", new DelMemberCont());
+		
+		//댓글관련
+		map.put("/replyList.do", new ReplyListCont());
 	}
 	
 	@Override
