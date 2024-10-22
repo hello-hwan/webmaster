@@ -5,7 +5,8 @@
 
 <mapper namespace="com.yedam.mapper.ReplyMapper">
 
-	<select id="selectList" parameterType="int" resultType="com.yedam.vo.ReplyVO">
+	<select id="selectList" parameterType="int" 
+	resultType="com.yedam.vo.ReplyVO">
 	select *
 	from tbl_reply
 	where board_no = #{boardNo}
@@ -21,16 +22,17 @@
 	       ,#{replyer}
 	       ,#{board_no} )
 	</insert>
-	
+	 
 	<delete id="deleteReply" parameterType="int">
 	delete from tbl_reply
 	where reply_no = #{replyNo}
 	</delete>
 	
-	<select id="selectReply" parameterType="int">
+	<select id="selectReply" parameterType="int" 
+	resultType="com.yedam.vo.ReplyVO">
 	select *
 	from tbl_reply
-	where board_no = #{boardNo}
+	where reply_no = #{replyNo}
 	</select>
 	
 </mapper>

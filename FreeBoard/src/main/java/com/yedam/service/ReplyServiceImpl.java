@@ -20,16 +20,16 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	@Override
 	public boolean addReply(ReplyVO reply) {
-		return false;
+		return mapper.insertReply(reply) == 1;
 	}
 	
 	@Override
 	public boolean removeReply(int replyNo) {
-		return false;
+		return mapper.deleteReply(replyNo) == 1;
 	}
 	
 	@Override
 	public ReplyVO getReply(int replyNo) {
-		return null;
+		return mapper.selectReply(replyNo);
 	}
 }
