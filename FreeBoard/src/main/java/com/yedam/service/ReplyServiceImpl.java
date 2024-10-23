@@ -14,8 +14,8 @@ public class ReplyServiceImpl implements ReplyService{
 	ReplyMapper mapper = sqlSession.getMapper(ReplyMapper.class);
 	
 	@Override
-	public List<ReplyVO> replyList(int boardNo) {
-		return mapper.selectList(boardNo);
+	public List<ReplyVO> replyList(int boardNo, int page) {
+		return mapper.selectListPaging(boardNo, page);
 	}
 	
 	@Override
@@ -31,5 +31,10 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public ReplyVO getReply(int replyNo) {
 		return mapper.selectReply(replyNo);
+	}
+	
+	@Override
+	public int replyCount(int boardNo) {
+		return mapper.selectCount(boardNo);
 	}
 }

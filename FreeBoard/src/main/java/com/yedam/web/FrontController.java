@@ -26,6 +26,9 @@ import com.yedam.control.member.MemberAddControl;
 import com.yedam.control.member.MemberAddformControl;
 import com.yedam.control.member.MemberJsonCont;
 import com.yedam.control.member.MemberListControl;
+import com.yedam.control.reply.AddReplyCont;
+import com.yedam.control.reply.RemoveReplyCont;
+import com.yedam.control.reply.ReplyCountCont;
 import com.yedam.control.reply.ReplyListCont;
 
 //프로젝트할때는 서블릿 하나만 만든다. 많으면 찾기 힘들어서
@@ -71,6 +74,9 @@ public class FrontController extends HttpServlet{
 		
 		//댓글관련
 		map.put("/replyList.do", new ReplyListCont());
+		map.put("/removeReply.do", new RemoveReplyCont());
+		map.put("/addReply.do", new AddReplyCont());
+		map.put("/replyCount.do", new ReplyCountCont());
 	}
 	
 	@Override

@@ -1,0 +1,108 @@
+select *
+from tbl_member;
+
+create table tbl_board (
+    board_no number primary key, --게시글번호
+    title varchar2(100) not null, --제목
+    content varchar2(1000) not null, --내용
+    writer varchar2(50) not null, --작성자
+    view_cnt number default 0, --조회수
+    write_date date default sysdate, --글작성일시
+    update_date date default sysdate -- 최종수정일
+);
+
+create sequence board_seq;
+--sample date 생성
+
+alter table tbl_board add img varchar2(100);
+
+select *
+from tbl_board
+order by 1 desc;
+
+
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, '게시글테스트', '글작성내용입니다', 'user01');
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, 'dd익히기', '내용입니다', 'user111');
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, 'HTML', 'javascript', 'user12');
+
+insert into tbl_board (board_no, title, content, writer)
+values (board_seq.nextval, 'JSP익히기', '서블릿 중요 내용입니다', 'user24');
+
+commit;
+
+select m.member_name, b.*
+from tbl_board b join tbl_member m
+                 on b.writer = m.member_id
+order by board_no;
+
+insert into tbl_board (board_no, title, content, writer)
+select board_seq.nextval, title, content, writer
+from tbl_board;
+
+commit;
+
+--페이징. 1페이지당 5건씩 출력.
+--board_no기준으로 5건씩 정렬
+--:붙이면 파라미터로 사용가능 page가 파라미터 매개변수
+select b.*
+from (select rownum rn, a.*
+      from (select *
+            from tbl_board
+            order by board_no) a) b
+where b.rn > (:page -1) *5
+  and b.rn <= (:page *5);
+
+select count(1)
+from tbl_board
+group by title;
+
+--댓글(댓글번호, 내용, 작성자, 작성일시, 게시글번호)
+create table tbl_reply (
+  reply_no number,
+  reply varchar2(1000) not null,
+  replyer varchar2(30) not null,
+  board_no number not null,
+  reply_date date default sysdate
+);
+
+select *
+from tbl_board;
+
+select *
+from tbl_reply
+where board_no = 376;
+
+create sequence reply_seq;
+
+alter table tbl_reply add constraint pk_reply primary key (reply_no);
+
+commit;
+insert into tbl_reply(reply_no, reply, replyer, board_no)
+values(reply_seq.nextval, '댓글6','user01',375);
+
+select *
+from tbl_reply
+where board_no = 391;
+
+
+select *
+from (select /*+ INDEX_DESC (r pk_reply) */ rownum rn, r.*
+      from tbl_reply r
+      where board_no = :boardNo) a
+where a.rn > (:page - 1)* 5
+ and a.rn <= :page * 5;
+ 
+insert into tbl_reply(reply_no, reply, replyer, board_no)
+select reply_seq.nextval, reply, replyer, board_no
+from tbl_reply
+where board_no = 391;
+
+select count(1)
+from tbl_reply
+where board_no = 391;
