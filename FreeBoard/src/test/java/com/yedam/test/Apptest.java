@@ -1,9 +1,16 @@
 package com.yedam.test;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yedam.common.DataSource;
 import com.yedam.mapper.ReplyMapper;
+import com.yedam.service.BoardService;
+import com.yedam.service.BoardServiceImpl;
 
 public class Apptest {
 	public static void main(String[] args) {
@@ -56,5 +63,14 @@ public class Apptest {
 		 * //select 전체조회 List<BoardVO> list = mapper.boardList(); for(BoardVO bvo2 :
 		 * list) { System.out.println(bvo2.toString()); }
 		 */
+		
+		BoardService svc = new BoardServiceImpl();
+		List<Map<String, Object>> result = svc.countByWriter();
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(result);
+		
+		System.out.println(json);
+		
 	}
 }

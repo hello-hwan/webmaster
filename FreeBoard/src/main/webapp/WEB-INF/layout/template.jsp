@@ -35,7 +35,9 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="logOut.do">로그아웃</a>
                     <%} %>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="javascript.do">자바스크립트연습</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="chart.do">chart</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="calendar.do">calendar</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
                 </div>
             </div>

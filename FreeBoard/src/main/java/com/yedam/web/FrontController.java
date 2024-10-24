@@ -6,12 +6,16 @@ import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.common.Control;
+import com.yedam.control.CalendarCont;
+import com.yedam.control.ChartControl;
+import com.yedam.control.CountWriterCont;
+import com.yedam.control.EventControl;
+import com.yedam.control.JavaScriptControl;
 import com.yedam.control.board.AddBoardControl;
 import com.yedam.control.board.AddBoardForm;
 import com.yedam.control.board.BoardControl;
@@ -43,7 +47,8 @@ public class FrontController extends HttpServlet{
 	}
 	
 	@Override
-	public void init(ServletConfig config) throws ServletException {
+	public void init(ServletConfig config) 
+			throws ServletException {
 		//되는지 확인용  System.out.println("init호출");
 		//url과 실행문 매치
 		map.put("/memberList.do", new MemberListControl());
@@ -77,6 +82,15 @@ public class FrontController extends HttpServlet{
 		map.put("/removeReply.do", new RemoveReplyCont());
 		map.put("/addReply.do", new AddReplyCont());
 		map.put("/replyCount.do", new ReplyCountCont());
+		
+		//차트관련
+		map.put("/chart.do",new ChartControl());
+		map.put("/countByWriter.do", new CountWriterCont());
+		
+		//캘린더 관련
+		map.put("/calendar.do", new CalendarCont());
+		map.put("/eventList.do", new EventControl());
+		map.put("/addEventList.do", new EventControl());
 	}
 	
 	@Override
