@@ -1,0 +1,94 @@
+create table site(
+       site_no number primary key
+       ,category varchar2(20) not null 
+       ,site_max number default 2 not null 
+       ,site_price number default 0 not null
+       ,use_flag varchar2(10) default 'y' not null
+);
+
+insert into site
+values( 1001, 'caraban', 4, 100000, 'y' );
+insert into site
+values( 1002, 'caraban', 4, 100000, 'y' );
+insert into site
+values( 1003, 'caraban', 4, 100000, 'n' );
+insert into site
+values( 1004, 'auto', 2, 50000, 'n' );
+insert into site
+values( 1005, 'auto', 2, 50000, 'y' );
+insert into site
+values( 1006, 'auto', 2, 50000, 'y' );
+insert into site
+values( 1007, 'deck', 2, 25000, 'y' );
+insert into site
+values( 1008, 'deck', 2, 25000, 'y' );
+insert into site
+values( 1009, 'deck', 2, 25000, 'n' );
+insert into site
+values( 1010, 'deck', 2, 25000, 'y' );
+
+
+create table site_book(
+       book_no number primary key
+       ,member_id varchar2(40) not null --mem_id 와 다른것인지
+       ,site_no2 number not null --site_no와 다른것인지
+       ,mem_id varchar2(40) not null
+       ,site_no number not null
+       ,mem_cnt number default 2 not null
+       ,start_date varchar2(40) not null
+       ,end_date varchar2(40) not null
+       ,car_num varchar2(40)
+       ,total_price number default 0
+       ,review_flag number default 0
+       ,cancel_flag number default 0
+       ,create_date date default sysdate not null
+);
+
+insert into site_book
+values( 901, 'mid901', 9001, );
+
+create table site_book_option(
+       option_no number not null 
+       ,book_no number not null 
+       ,member_id varchar2(40) not null 
+       ,site_no2 number not null -- site_no와 다른것인지
+);
+
+create table site_option(
+       option_no number primary key
+       ,option_name varchar2(200)
+       ,option_price number default 0
+);
+
+create table member(
+       member_id varchar2(40) primary key
+       ,password varchar2(40) not null 
+       ,member_name varchar2(40) not null 
+       ,address varchar2(200)
+       ,email varchar2(40)
+       ,tel varchar2(40) not null 
+       ,joined_date date default sysdate not null 
+       ,permission varchar2(40) default 'user' not null
+);
+
+create table board(
+       board_no number primary key
+       ,board_category varchar2(40) not null
+       ,book_no varchar2(40) not null
+       ,reply_no varchar2(40)
+       ,secret_flag number default 0
+       ,title varchar2(200) not null
+       ,content varchar2(1000)
+       ,board_pw varchar2(40)
+       ,notice_flag number default 0
+       ,board_file varchar2(40)
+       ,writer varchar2(40)
+       ,view_cnt number default 0
+       ,write_date date default sysdate not null
+);
+
+create table login_check( --테이블이 필요없는 것인지
+       login_id varchar2(40) -- member_id와 다른것인지
+       ,check_flag varchar2(40)
+       ,login_date date default sysdate
+);
