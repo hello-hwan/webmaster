@@ -1,35 +1,35 @@
 SET SERVEROUTPUT ON;
 
 /*
-Ä¿¼­ FOR LOOP : ´ÜÃàÅ°, Æ¯Á¤ÇÑ °æ¿ì¿¡´Â »ç¿ë ºÒ°¡ (¼öµ¿Ã³¸®)
-CURSOR°¡ µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é ¾Æ¿¹ ½ÇÇàÀ» ¾ÈÇÔ
+ì»¤ì„œ FOR LOOP : ë‹¨ì¶•í‚¤, íŠ¹ì •í•œ ê²½ìš°ì—ëŠ” ì‚¬ìš© ë¶ˆê°€ (ìˆ˜ë™ì²˜ë¦¬)
+CURSORê°€ ë°ì´í„°ê°€ ì—†ìœ¼ë©´ ì•„ì˜ˆ ì‹¤í–‰ì„ ì•ˆí•¨
 
-FOR ·¹ÄÚµåÀÌ¸§(ÀÓ½Ã º¯¼ö -> ·¹ÄÚµåÅ¸ÀÔ(ÇÑ Çà ÅëÂ°·Î), FETCH Ä¿¼­ÀÌ¸§ INTO ·¹ÄÚµåÀÌ¸§) IN Ä¿¼­ÀÌ¸§( LOOP¹®ÀÌ ¼öÇàÇÒ Á¶°Ç(¹üÀ§) , OPEN Ä¿¼­ÀÌ¸§; ) LOOP
+FOR ë ˆì½”ë“œì´ë¦„(ìž„ì‹œ ë³€ìˆ˜ -> ë ˆì½”ë“œíƒ€ìž…(í•œ í–‰ í†µì§¸ë¡œ), FETCH ì»¤ì„œì´ë¦„ INTO ë ˆì½”ë“œì´ë¦„) IN ì»¤ì„œì´ë¦„( LOOPë¬¸ì´ ìˆ˜í–‰í•  ì¡°ê±´(ë²”ìœ„) , OPEN ì»¤ì„œì´ë¦„; ) LOOP
     statement1;
     statement2;
     ...
-END LOOP; (CLOSE Ä¿¼­ÀÌ¸§;)
+END LOOP; (CLOSE ì»¤ì„œì´ë¦„;)
 */
 
--- Ä¿¼­ FOR LOOP :¸í½ÃÀû Ä¿¼­¸¦ »ç¿ëÇÏ´Â ´ÜÃà¹æ¹ý
--- 1) ¹®¹ý
+-- ì»¤ì„œ FOR LOOP :ëª…ì‹œì  ì»¤ì„œë¥¼ ì‚¬ìš©í•˜ëŠ” ë‹¨ì¶•ë°©ë²•
+-- 1) ë¬¸ë²•
 DECLARE
-    CURSOR Ä¿¼­¸í IS
-        SELECT¹®;
+    CURSOR ì»¤ì„œëª… IS
+        SELECTë¬¸;
 BEGIN
-    FOR ÀÓ½Ãº¯¼ö(·¹ÄÚµåÅ¸ÀÔ) IN Ä¿¼­¸í LOOP -- ¾Ï½ÃÀûÀ¸·Î OPEN°ú FETCH
-        -- Ä¿¼­¿¡ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ´Â °æ¿ì ¼öÇàÇÏ´Â ÄÚµå
-    END LOOP; -- ¾Ï½ÃÀûÀ¸·Î CLOSE
+    FOR ìž„ì‹œë³€ìˆ˜(ë ˆì½”ë“œíƒ€ìž…) IN ì»¤ì„œëª… LOOP -- ì•”ì‹œì ìœ¼ë¡œ OPENê³¼ FETCH
+        -- ì»¤ì„œì— ë°ì´í„°ê°€ ì¡´ìž¬í•˜ëŠ” ê²½ìš° ìˆ˜í–‰í•˜ëŠ” ì½”ë“œ
+    END LOOP; -- ì•”ì‹œì ìœ¼ë¡œ CLOSE
 END;
 /
 
--- 2) Àû¿ë
+-- 2) ì ìš©
 DECLARE
     CURSOR emp_cursor IS
         SELECT employee_id, last_name, salary
         FROM employees;
 BEGIN
-    FOR emp_rec IN emp_cursor LOOP -- OPEN FETCH, ±Ùµ¥ µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é ¾ÈµÊ
+    FOR emp_rec IN emp_cursor LOOP -- OPEN FETCH, ê·¼ë° ë°ì´í„°ê°€ ì—†ìœ¼ë©´ ì•ˆë¨
         DBMS_OUTPUT.PUT(emp_cursor%ROWCOUNT || ' : ');
         DBMS_OUTPUT.PUT(emp_rec.employee_id);
         DBMS_OUTPUT.PUT(', '||emp_rec.last_name);
@@ -39,36 +39,36 @@ END;
 /
 
 /*
-ºÎ¼­¹øÈ£¸¦ ÀÔ·Â¹Þ¾Æ ÇØ´ç ºÎ¼­¿¡ ¼Ò¼ÓµÈ »ç¿øÁ¤º¸(»ç¿ø¹øÈ£, ÀÌ¸§, ±Þ¿©)¸¦ Ãâ·ÂÇÏ¼¼¿ä.
-ºÎ¼­¹øÈ£ 0: Ä¿¼­ÀÇ µ¥ÀÌÅÍ°¡ ¾øÀ½, 50: Ä¿¼­ µ¥ÀÌÅÍ 5°Ç
+ë¶€ì„œë²ˆí˜¸ë¥¼ ìž…ë ¥ë°›ì•„ í•´ë‹¹ ë¶€ì„œì— ì†Œì†ëœ ì‚¬ì›ì •ë³´(ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê¸‰ì—¬)ë¥¼ ì¶œë ¥í•˜ì„¸ìš”.
+ë¶€ì„œë²ˆí˜¸ 0: ì»¤ì„œì˜ ë°ì´í„°ê°€ ì—†ìŒ, 50: ì»¤ì„œ ë°ì´í„° 5ê±´
 */
 
 DECLARE
     CURSOR emp_dept_cursor IS
         SELECT employee_id, last_name, salary
         FROM employees
-        WHERE department_id = &ºÎ¼­¹øÈ£;
+        WHERE department_id = &ë¶€ì„œë²ˆí˜¸;
 BEGIN
-    FOR emp_rec IN emp_dept_cursor LOOP -- µ¥ÀÌÅÍ°¡ ¾ø¾î¼­ FOR¹®ÀÌ ¾Æ¿¹ ½ÇÇàÀÌ ¾ÈµÊ
+    FOR emp_rec IN emp_dept_cursor LOOP -- ë°ì´í„°ê°€ ì—†ì–´ì„œ FORë¬¸ì´ ì•„ì˜ˆ ì‹¤í–‰ì´ ì•ˆë¨
         DBMS_OUTPUT.PUT(emp_dept_cursor%ROWCOUNT || ' : ');
         DBMS_OUTPUT.PUT(emp_rec.employee_id);
         DBMS_OUTPUT.PUT(', '||emp_rec.last_name);
         DBMS_OUTPUT.PUT_LINE(', '||emp_rec.salary);
-    END LOOP; -- ¾Ï½ÃÀûÀ¸·Î CLOSE Ä¿¼­;
-    DBMS_OUTPUT.PUT('ÃÑ µ¥ÀÌÅÍ °¹¼ö : '||emp_dept_cursor%ROWCOUNT);
+    END LOOP; -- ì•”ì‹œì ìœ¼ë¡œ CLOSE ì»¤ì„œ;
+    DBMS_OUTPUT.PUT('ì´ ë°ì´í„° ê°¯ìˆ˜ : '||emp_dept_cursor%ROWCOUNT);
 END;
 /
 
--- Ä¿¼­ FOR LOOP ¹®ÀÇ °æ¿ì ¸í½ÃÀû Ä¿¼­ÀÇ µ¥ÀÌÅÍ¸¦ º¸ÀåÇÒ ¼ö ÀÖÀ» ¶§¸¸ »ç¿ë(SELECT µ¥ÀÌÅÍ ¾øÀ¸¸é ³ë½ÇÇà)
+-- ì»¤ì„œ FOR LOOP ë¬¸ì˜ ê²½ìš° ëª…ì‹œì  ì»¤ì„œì˜ ë°ì´í„°ë¥¼ ë³´ìž¥í•  ìˆ˜ ìžˆì„ ë•Œë§Œ ì‚¬ìš©(SELECT ë°ì´í„° ì—†ìœ¼ë©´ ë…¸ì‹¤í–‰)
 
 /*
 1.
-»ç¿ø(employees) Å×ÀÌºí¿¡¼­
-»ç¿øÀÇ »ç¿ø¹øÈ£, »ç¿øÀÌ¸§, ÀÔ»ç¿¬µµ¸¦ 
-´ÙÀ½ ±âÁØ¿¡ ¸Â°Ô °¢°¢ test01, test02¿¡ ÀÔ·ÂÇÏ½Ã¿À.
+ì‚¬ì›(employees) í…Œì´ë¸”ì—ì„œ
+ì‚¬ì›ì˜ ì‚¬ì›ë²ˆí˜¸, ì‚¬ì›ì´ë¦„, ìž…ì‚¬ì—°ë„ë¥¼ 
+ë‹¤ìŒ ê¸°ì¤€ì— ë§žê²Œ ê°ê° test01, test02ì— ìž…ë ¥í•˜ì‹œì˜¤.
 
-ÀÔ»ç³âµµ°¡ 2025³â(Æ÷ÇÔ) ÀÌÀü ÀÔ»çÇÑ »ç¿øÀº test01 Å×ÀÌºí¿¡ ÀÔ·Â
-ÀÔ»ç³âµµ°¡ 2025³â ÀÌÈÄ ÀÔ»çÇÑ »ç¿øÀº test02 Å×ÀÌºí¿¡ ÀÔ·Â
+ìž…ì‚¬ë…„ë„ê°€ 2025ë…„(í¬í•¨) ì´ì „ ìž…ì‚¬í•œ ì‚¬ì›ì€ test01 í…Œì´ë¸”ì— ìž…ë ¥
+ìž…ì‚¬ë…„ë„ê°€ 2025ë…„ ì´í›„ ìž…ì‚¬í•œ ì‚¬ì›ì€ test02 í…Œì´ë¸”ì— ìž…ë ¥
 */
 
 DECLARE
@@ -76,7 +76,7 @@ DECLARE
         SELECT employee_id eid, last_name ename, hire_date hdate
         FROM employees;
 BEGIN
-    FOR emp_rec IN emp_cursor LOOP -- OPEN, FETCH, CLOSE ¾²¸é ¿À·ù³­´Ù
+    FOR emp_rec IN emp_cursor LOOP -- OPEN, FETCH, CLOSE ì“°ë©´ ì˜¤ë¥˜ë‚œë‹¤
         IF emp_rec.hdate <= TO_DATE('20251231','yyyyMMdd') THEN
             INSERT INTO test01(empid, ename, hiredate)
             VALUES (emp_rec.eid, emp_rec.ename,emp_rec.hdate);
@@ -93,8 +93,8 @@ SELECT * FROM test01;
 
 /*
 2.
-ºÎ¼­¹øÈ£¸¦ ÀÔ·ÂÇÒ °æ¿ì(&Ä¡È¯º¯¼ö »ç¿ë)
-ÇØ´çÇÏ´Â ºÎ¼­ÀÇ »ç¿øÀÌ¸§, ÀÔ»çÀÏÀÚ, ºÎ¼­¸íÀ» Ãâ·ÂÇÏ½Ã¿À.
+ë¶€ì„œë²ˆí˜¸ë¥¼ ìž…ë ¥í•  ê²½ìš°(&ì¹˜í™˜ë³€ìˆ˜ ì‚¬ìš©)
+í•´ë‹¹í•˜ëŠ” ë¶€ì„œì˜ ì‚¬ì›ì´ë¦„, ìž…ì‚¬ì¼ìž, ë¶€ì„œëª…ì„ ì¶œë ¥í•˜ì‹œì˜¤.
 */
 
 DECLARE
@@ -102,7 +102,7 @@ DECLARE
         SELECT last_name ename, hire_date hdate, department_name dname
         FROM employees e join departments d
                          on e.department_id = d.department_id
-        WHERE e.department_id = &ºÎ¼­¹øÈ£;
+        WHERE e.department_id = &ë¶€ì„œë²ˆí˜¸;
 BEGIN
     FOR info IN emp_in_dept_cursor LOOP
         DBMS_OUTPUT.PUT(emp_in_dept_cursor%ROWCOUNT ||' : ');
@@ -113,13 +113,13 @@ BEGIN
 END;
 /
 
--- µ¥ÀÌÅÍ È®ÀÎ ÀÛ¾÷
--- Ä¿¼­ FOR LOOP¹®Àº ¼­ºêÄõ¸®¸¦ ÀÌ¿ëÇØ¼­ µ¿ÀÛ °¡´É(´Ü, ¼Ó¼ºÀº »ç¿ëºÒ°¡)
+-- ë°ì´í„° í™•ì¸ ìž‘ì—…
+-- ì»¤ì„œ FOR LOOPë¬¸ì€ ì„œë¸Œì¿¼ë¦¬ë¥¼ ì´ìš©í•´ì„œ ë™ìž‘ ê°€ëŠ¥(ë‹¨, ì†ì„±ì€ ì‚¬ìš©ë¶ˆê°€)
 BEGIN -- 
    FOR emp_rec IN (SELECT last_name, hire_date,department_name
                    FROM employees e join departments d
                                   on e.department_id = d.department_id
-                   WHERE e.department_id = &ºÎ¼­¹øÈ£) LOOP
+                   WHERE e.department_id = &ë¶€ì„œë²ˆí˜¸) LOOP
         DBMS_OUTPUT.PUT(emp_rec.last_name);
         DBMS_OUTPUT.PUT(', '||emp_rec.hire_date);
         DBMS_OUTPUT.PUT_LINE(', '||emp_rec.department_name);
@@ -133,7 +133,7 @@ DECLARE
         SELECT last_name ename, hire_date hdate, department_name dname
         FROM employees e join departments d
                          on e.department_id = d.department_id
-        WHERE e.department_id = &ºÎ¼­¹øÈ£;
+        WHERE e.department_id = &ë¶€ì„œë²ˆí˜¸;
 BEGIN
     FOR emp_rec IN emp_cursor LOOP
         DBMS_OUTPUT.PUT(emp_cursor%ROWCOUNT ||' : ');
@@ -146,19 +146,19 @@ END;
 
 /*
 3.
-ºÎ¼­¹øÈ£¸¦ ÀÔ·Â(&»ç¿ë)ÇÒ °æ¿ì 
-»ç¿øÀÌ¸§, ±Þ¿©, ¿¬ºÀ->(±Þ¿©*12+(±Þ¿©*nvl(Ä¿¹Ì¼ÇÆÛ¼¾Æ®,0)*12))
-À» Ãâ·ÂÇÏ´Â  PL/SQLÀ» ÀÛ¼ºÇÏ½Ã¿À.
+ë¶€ì„œë²ˆí˜¸ë¥¼ ìž…ë ¥(&ì‚¬ìš©)í•  ê²½ìš° 
+ì‚¬ì›ì´ë¦„, ê¸‰ì—¬, ì—°ë´‰->(ê¸‰ì—¬*12+(ê¸‰ì—¬*nvl(ì»¤ë¯¸ì…˜í¼ì„¼íŠ¸,0)*12))
+ì„ ì¶œë ¥í•˜ëŠ”  PL/SQLì„ ìž‘ì„±í•˜ì‹œì˜¤.
 */
 
--- 3-1 : ¿¬ºÀÀ» µû·Î °è»ê
+-- 3-1 : ì—°ë´‰ì„ ë”°ë¡œ ê³„ì‚°
 DECLARE 
     CURSOR emp_in_dept_cursor IS
         SELECT last_name, salary, commission_pct
         FROM employees
-        WHERE department_id = &ºÎ¼­¹øÈ£;
+        WHERE department_id = &ë¶€ì„œë²ˆí˜¸;
     
-    v_year NUMBER(10,2); --¿¬ºÀ
+    v_year NUMBER(10,2); --ì—°ë´‰
 BEGIN
     FOR v_emp_rec IN emp_in_dept_cursor LOOP
         v_year := v_emp_rec.salary*12+(v_emp_rec.salary*nvl(v_emp_rec.commission_pct,0)*12);
@@ -172,12 +172,12 @@ END;
 /
 
 
--- 3-2 : SELECT¹®¿¡ ¿¬ºÀ°è»ê
+-- 3-2 : SELECTë¬¸ì— ì—°ë´‰ê³„ì‚°
 DECLARE 
     CURSOR emp_in_dept_cursor IS
         SELECT last_name ename, salary sal, salary*12+salary*nvl(commission_pct,0)*12 year
         FROM employees
-        WHERE department_id = &ºÎ¼­¹øÈ£;
+        WHERE department_id = &ë¶€ì„œë²ˆí˜¸;
 BEGIN
     FOR v_emp_rec IN emp_in_dept_cursor LOOP
         DBMS_OUTPUT.PUT(emp_in_dept_cursor%ROWCOUNT ||' : ');
@@ -194,7 +194,7 @@ DECLARE
     CURSOR emp_cursor IS
         SELECT last_name ename, salary sal, salary*12+salary*nvl(commission_pct,0)*12 year
         FROM employees
-        WHERE department_id = &ºÎ¼­¹øÈ£;
+        WHERE department_id = &ë¶€ì„œë²ˆí˜¸;
 BEGIN
     FOR emp_rec IN emp_cursor LOOP
         DBMS_OUTPUT.PUT(emp_cursor%ROWCOUNT|| ' : ');
@@ -206,37 +206,37 @@ END;
 /
 
 /*
-¿¹¿Ü
+ì˜ˆì™¸
 EXCEPTION
-    WHEN ¿¹¿ÜÀÌ¸§1 [OR ¿¹¿ÜÀÌ¸§2...] THEN
-        ½ÇÁ¦ÀÛ¾÷1;
-        ½ÇÁ¦ÀÛ¾÷2;
+    WHEN ì˜ˆì™¸ì´ë¦„1 [OR ì˜ˆì™¸ì´ë¦„2...] THEN
+        ì‹¤ì œìž‘ì—…1;
+        ì‹¤ì œìž‘ì—…2;
     WHEN NO_DATA_FOUND THEN
-        ½ÇÁ¦ÀÛ¾÷3;
+        ì‹¤ì œìž‘ì—…3;
     WHEN OTHERS THEN
-        ½ÇÁ¦ÀÛ¾÷4;
-https://www.oracle.com/kr/ -¸®¼Ò½º -¼³¸í¼­ (documentation) - oracle database
+        ì‹¤ì œìž‘ì—…4;
+https://www.oracle.com/kr/ -ë¦¬ì†ŒìŠ¤ -ì„¤ëª…ì„œ (documentation) - oracle database
 -Oracle Database 11g Release 2 (11.2)
 -Database Administration -> Supporting Documentation -> Error Messages
-ORA(ÄÄÆÄÀÏ¿¡·¯)¸¸ Ã³¸®°¡´É, PLS´Â ½ÇÇà¿¡·¯¶ó¼­ ¿À¶óÅ¬¿¡¼­ ÇØ°á ºÒ°¡´É
+ORA(ì»´íŒŒì¼ì—ëŸ¬)ë§Œ ì²˜ë¦¬ê°€ëŠ¥, PLSëŠ” ì‹¤í–‰ì—ëŸ¬ë¼ì„œ ì˜¤ë¼í´ì—ì„œ í•´ê²° ë¶ˆê°€ëŠ¥
 
-ORA-00000: normal, successful completion - ³»¿ë
-Cause: Normal exit. -¿øÀÎ
-Action: None -ÇØ°á¹æ¹ý
+ORA-00000: normal, successful completion - ë‚´ìš©
+Cause: Normal exit. -ì›ì¸
+Action: None -í•´ê²°ë°©ë²•
 
 PL/SQL Language Reference -> 11 PL/SQL Error Handling->Predefined Exceptions
-    => ¿©±â¼­ ÀÚÁÖ »ý±â´Â ¿¹¿Ü´Â Æ¯º°È÷ ÀÌ¸§ ºÎ¿©ÇØÁáÀ½/ PL/SQL¿¡¼­¸¸ »ç¿ë°¡´É
-        -> ¿©±â¿¡ ÀÖ´Â ÀÌ¸§À¸·Î ¿¹¿ÜÃ³¸® °¡´É
-ÀÚÁÖ »ç¿ëÇÏÁö ¾Ê´Â ¿¹¿Ü´Â ÀÌ¸§À» ºÎ¿©ÇØ¾ßµÊ
+    => ì—¬ê¸°ì„œ ìžì£¼ ìƒê¸°ëŠ” ì˜ˆì™¸ëŠ” íŠ¹ë³„ížˆ ì´ë¦„ ë¶€ì—¬í•´ì¤¬ìŒ/ PL/SQLì—ì„œë§Œ ì‚¬ìš©ê°€ëŠ¥
+        -> ì—¬ê¸°ì— ìžˆëŠ” ì´ë¦„ìœ¼ë¡œ ì˜ˆì™¸ì²˜ë¦¬ ê°€ëŠ¥
+ìžì£¼ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ” ì˜ˆì™¸ëŠ” ì´ë¦„ì„ ë¶€ì—¬í•´ì•¼ë¨
 
 DECLARE
-    e_emps_remaining(¿¹¿ÜÀÌ¸§) EXCEPTION;
-    PRAGMA(¸í·É¾î) EXCETION INIT(¿¹¿Ü»óÈ²ÃÊ±âÈ­) ( e_emps_remaining(¿¹¿ÜÀÌ¸§), -2292(½ÇÁ¦¿¡·¯ÄÚµå) );
+    e_emps_remaining(ì˜ˆì™¸ì´ë¦„) EXCEPTION;
+    PRAGMA(ëª…ë ¹ì–´) EXCETION INIT(ì˜ˆì™¸ìƒí™©ì´ˆê¸°í™”) ( e_emps_remaining(ì˜ˆì™¸ì´ë¦„), -2292(ì‹¤ì œì—ëŸ¬ì½”ë“œ) );
 BEGIN
- SELECT ¾îÂ¼°í
+ SELECT ì–´ì©Œê³ 
 EXCEPTION
     WHEN e_emps_remaining THEN
-       Ã³¸®³»¿ë;
+       ì²˜ë¦¬ë‚´ìš©;
 END;
 /
 
@@ -244,131 +244,131 @@ DECLARE
     e_invalid_department EXCEPTION
 BEGIN
     IF SQL%NOTFOUND THEN
-        RAISE(°­Á¦·Î ¿¹¿Ü¹ß»ý) e_invalid_department;
+        RAISE(ê°•ì œë¡œ ì˜ˆì™¸ë°œìƒ) e_invalid_department;
     END IF;
 EXCEPTION
     WHEN e_invalid_department THEN
-        ¿¹¿ÜÃ³¸®;
+        ì˜ˆì™¸ì²˜ë¦¬;
 
 -Application Development
 
-1. ¹Ì¸® Á¤ÀÇµÈ ÀÌ¸§  20°³Á¤µµ -> EXCEPTION Ã³¸®¸¸ ÇÏ¸éµÊ EXCEPTION WHEN NO_DATA_FOUND THEN ¿À·ùÀÔ´Ï´Ù;
-2. ¿À¶óÅ¬ ¿¹¿Ü´Â ¸ÂÁö¸¸ ÀÌ¸§ ¾øÀ½ -> DECLARE¿¡¼­ PRAGMA·Î ¿¹¿ÜÄÚµå¿¬°á, EXCEPTION Ã³¸®
-3. ¿À¶óÅ¬ ¹®¹ý»ó ¸ÂÁö¸¸, °³¹ßÀÚ°¡ ÀÇµµÇÏÁö ¾ÊÀº»óÈ² -> DECLARE, BEGIN Àý¿¡¼­ RAISE·Î °­Á¦·Î ¿¹¿Ü¹ß»ý, EXCEPTION Ã³¸®
+1. ë¯¸ë¦¬ ì •ì˜ëœ ì´ë¦„  20ê°œì •ë„ -> EXCEPTION ì²˜ë¦¬ë§Œ í•˜ë©´ë¨ EXCEPTION WHEN NO_DATA_FOUND THEN ì˜¤ë¥˜ìž…ë‹ˆë‹¤;
+2. ì˜¤ë¼í´ ì˜ˆì™¸ëŠ” ë§žì§€ë§Œ ì´ë¦„ ì—†ìŒ -> DECLAREì—ì„œ PRAGMAë¡œ ì˜ˆì™¸ì½”ë“œì—°ê²°, EXCEPTION ì²˜ë¦¬
+3. ì˜¤ë¼í´ ë¬¸ë²•ìƒ ë§žì§€ë§Œ, ê°œë°œìžê°€ ì˜ë„í•˜ì§€ ì•Šì€ìƒí™© -> DECLARE, BEGIN ì ˆì—ì„œ RAISEë¡œ ê°•ì œë¡œ ì˜ˆì™¸ë°œìƒ, EXCEPTION ì²˜ë¦¬
 */
 
--- ¿¹¿ÜÃ³¸® : ¿¹¿Ü°¡ ¹ß»ýÇßÀ» ¶§ Á¤»óÀûÀ¸·Î ÀÛ¾÷ÀÌ Á¾·áµÉ¼ö ÀÖµµ·Ï Ã³¸®
--- 1) ¹®¹ý
+-- ì˜ˆì™¸ì²˜ë¦¬ : ì˜ˆì™¸ê°€ ë°œìƒí–ˆì„ ë•Œ ì •ìƒì ìœ¼ë¡œ ìž‘ì—…ì´ ì¢…ë£Œë ìˆ˜ ìžˆë„ë¡ ì²˜ë¦¬
+-- 1) ë¬¸ë²•
 DECLARE
     
 BEGIN
     
 EXCEPTION
-    WHEN THEN -- ÇÊ¿äÇÑ ¸¸Å­ Ãß°¡ °¡´É
-        -- ¿¹¿Ü¹ß»ý½Ã Ã³¸®ÇÏ´Â ÄÚµå
-    WHEN OTHERS THEN -- À§¿¡ Á¤ÀÇµÈ ¿¹¿Ü¸»°í ¹ß»ýÇÏ´Â °æ¿ì ÀÏ°ýÃ³¸®
-        -- ¿¹¿Ü¹ß»ý½Ã Ã³¸®ÇÏ´Â ÄÚµå
+    WHEN THEN -- í•„ìš”í•œ ë§Œí¼ ì¶”ê°€ ê°€ëŠ¥
+        -- ì˜ˆì™¸ë°œìƒì‹œ ì²˜ë¦¬í•˜ëŠ” ì½”ë“œ
+    WHEN OTHERS THEN -- ìœ„ì— ì •ì˜ëœ ì˜ˆì™¸ë§ê³  ë°œìƒí•˜ëŠ” ê²½ìš° ì¼ê´„ì²˜ë¦¬
+        -- ì˜ˆì™¸ë°œìƒì‹œ ì²˜ë¦¬í•˜ëŠ” ì½”ë“œ
 END;
 /
 
--- 2) Àû¿ë
--- 2-1) ÀÌ¹Ì ¿À¶óÅ¬¿¡ Á¤ÀÇµÇ¾î ÀÖ°í(¿¡·¯ÄÚµå°¡ ÀÖÀ½) ÀÌ¸§µµ Á¸ÀçÇÏ´Â ¿¹¿Ü»çÇ×
+-- 2) ì ìš©
+-- 2-1) ì´ë¯¸ ì˜¤ë¼í´ì— ì •ì˜ë˜ì–´ ìžˆê³ (ì—ëŸ¬ì½”ë“œê°€ ìžˆìŒ) ì´ë¦„ë„ ì¡´ìž¬í•˜ëŠ” ì˜ˆì™¸ì‚¬í•­
 DECLARE
     v_ename employees.last_name%TYPE;
 BEGIN
     SELECT last_name
     INTO v_ename
     FROM employees
-    WHERE department_id=&ºÎ¼­¹øÈ£;
-    -- ºÎ¼­¹øÈ£ 0 : ORA-01403, NO_DATA_FOUND 
-    -- ºÎ¼­¹øÈ£ 10 : Á¤»ó½ÇÇà
-    -- ºÎ¼­¹øÈ£ 50 : ORA-06512, TOO_MANY_ROWS
-    -- ¿¹¿Ü¸¦ Ã³¸®ÇÏ´õ¶óµµ ½ÇÇàµÇÁö´Â ¾ÊÀ½, ¿À·ù¸¸ »ç¶óÁü
+    WHERE department_id=&ë¶€ì„œë²ˆí˜¸;
+    -- ë¶€ì„œë²ˆí˜¸ 0 : ORA-01403, NO_DATA_FOUND 
+    -- ë¶€ì„œë²ˆí˜¸ 10 : ì •ìƒì‹¤í–‰
+    -- ë¶€ì„œë²ˆí˜¸ 50 : ORA-06512, TOO_MANY_ROWS
+    -- ì˜ˆì™¸ë¥¼ ì²˜ë¦¬í•˜ë”ë¼ë„ ì‹¤í–‰ë˜ì§€ëŠ” ì•ŠìŒ, ì˜¤ë¥˜ë§Œ ì‚¬ë¼ì§
     DBMS_OUTPUT.PUT_LINE(v_ename);
     
 EXCEPTION
     WHEN NO_DATA_FOUND THEN
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ ¾ø½À´Ï´Ù.');
-        DBMS_OUTPUT.PUT_LINE('ºí·ÏÀÌ Á¾·áµÇ¾ú½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤.');
+        DBMS_OUTPUT.PUT_LINE('ë¸”ë¡ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.');
     WHEN OTHERS THEN -- 
-        DBMS_OUTPUT.PUT_LINE('±âÅ¸ ¿¹¿Ü»çÇ×ÀÌ ¹ß»ýÇß½À´Ï´Ù.');
-        DBMS_OUTPUT.PUT_LINE('ºí·ÏÀÌ Á¾·áµÇ¾ú½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('ê¸°íƒ€ ì˜ˆì™¸ì‚¬í•­ì´ ë°œìƒí–ˆìŠµë‹ˆë‹¤.');
+        DBMS_OUTPUT.PUT_LINE('ë¸”ë¡ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.');
 END;
 /
 
--- 2-2) ÀÌ¹Ì ¿À¶óÅ¬¿¡ Á¤ÀÇµÇ¾î ÀÖ°í(¿¡·¯ÄÚµå°¡ ÀÖÀ½) ÀÌ¸§Àº Á¸ÀçÇÏÁö ¾Ê´Â ¿¹¿Ü»çÇ×
+-- 2-2) ì´ë¯¸ ì˜¤ë¼í´ì— ì •ì˜ë˜ì–´ ìžˆê³ (ì—ëŸ¬ì½”ë“œê°€ ìžˆìŒ) ì´ë¦„ì€ ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ì˜ˆì™¸ì‚¬í•­
 DECLARE
-    e_emps_remaining EXCEPTION; -- ¿¡·¯ÀÌ¸§ º¯¼ö ¼±¾ð
-    PRAGMA EXCEPTION_INIT(e_emps_remaining, -02292); -- PREGMA : ÀÌ¸§°ú ¿¡·¯ÄÚµå ¿¬°á
+    e_emps_remaining EXCEPTION; -- ì—ëŸ¬ì´ë¦„ ë³€ìˆ˜ ì„ ì–¸
+    PRAGMA EXCEPTION_INIT(e_emps_remaining, -02292); -- PREGMA : ì´ë¦„ê³¼ ì—ëŸ¬ì½”ë“œ ì—°ê²°
 BEGIN
     DELETE FROM departments
-    WHERE department_id = &ºÎ¼­¹øÈ£;
-    -- ºÎ¼­¹øÈ£ 10 : ORA-02292: integrity constraint (HR.EMP_DEPT_FK) violated - child record found
+    WHERE department_id = &ë¶€ì„œë²ˆí˜¸;
+    -- ë¶€ì„œë²ˆí˜¸ 10 : ORA-02292: integrity constraint (HR.EMP_DEPT_FK) violated - child record found
 EXCEPTION
     WHEN e_emps_remaining THEN
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­´Â ´Ù¸¥ Å×ÀÌºí¿¡¼­ »ç¿ëÁßÀÔ´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œëŠ” ë‹¤ë¥¸ í…Œì´ë¸”ì—ì„œ ì‚¬ìš©ì¤‘ìž…ë‹ˆë‹¤.');
 END;
 /
--- 2-3) »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü => ¿À¶óÅ¬ ÀÔÀå¿¡¼± Á¤»óÄÚµå·Î ÀÎÁö
--- ¿¹¿Ü¹ß»ýÇÏ¸é ¹Ù·Î ½ÇÇàÁ¾·á, Á¶°Ç¹®À¸·Î Ã³¸®ÇÏ¸é ÄÚµå°¡ ³¡±îÁö ½ÇÇà
+-- 2-3) ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ => ì˜¤ë¼í´ ìž…ìž¥ì—ì„  ì •ìƒì½”ë“œë¡œ ì¸ì§€
+-- ì˜ˆì™¸ë°œìƒí•˜ë©´ ë°”ë¡œ ì‹¤í–‰ì¢…ë£Œ, ì¡°ê±´ë¬¸ìœ¼ë¡œ ì²˜ë¦¬í•˜ë©´ ì½”ë“œê°€ ëê¹Œì§€ ì‹¤í–‰
 DECLARE
-    e_dept_del_fail EXCEPTION; -- ¿¡·¯ ÀÌ¸§ Á¤ÀÇ
+    e_dept_del_fail EXCEPTION; -- ì—ëŸ¬ ì´ë¦„ ì •ì˜
 BEGIN
   DELETE FROM departments
-  WHERE department_id = &ºÎ¼­¹øÈ£;
-  -- ºÎ¼­¹øÈ£ 0 : Á¤»óÀûÀ¸·Î ¼öÇàµÇÁö¸¸ ±â´É»ó ½ÇÆÐ·Î ÀÎÁöÇØ¾ß ÇÏ´Â °æ¿ì
-  IF SQL%ROWCOUNT = 0 THEN -- °¡Àå ÃÖ±Ù ½ÇÇàµÈ SQL¹®ÀÇ °á°ú°¡ ¸îÇàÀÎÁö È®ÀÎ
-      RAISE e_dept_del_fail; -- °­Á¦·Î ¿¡·¯ ¹ß»ý
+  WHERE department_id = &ë¶€ì„œë²ˆí˜¸;
+  -- ë¶€ì„œë²ˆí˜¸ 0 : ì •ìƒì ìœ¼ë¡œ ìˆ˜í–‰ë˜ì§€ë§Œ ê¸°ëŠ¥ìƒ ì‹¤íŒ¨ë¡œ ì¸ì§€í•´ì•¼ í•˜ëŠ” ê²½ìš°
+  IF SQL%ROWCOUNT = 0 THEN -- ê°€ìž¥ ìµœê·¼ ì‹¤í–‰ëœ SQLë¬¸ì˜ ê²°ê³¼ê°€ ëª‡í–‰ì¸ì§€ í™•ì¸
+      RAISE e_dept_del_fail; -- ê°•ì œë¡œ ì—ëŸ¬ ë°œìƒ
   END IF;
   DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT);
 EXCEPTION
     WHEN e_dept_del_fail THEN
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.');
-        DBMS_OUTPUT.PUT_LINE('ºÎ¼­¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.');
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œëŠ” ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
+        DBMS_OUTPUT.PUT_LINE('ë¶€ì„œë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.');
 END;
 /
 
 
 BEGIN
     DELETE FROM departments
-    WHERE department_id = &ºÎ¼­¹øÈ£;
-    -- ºÎ¼­¹øÈ£ 0 : Á¤»óÀûÀ¸·Î ¼öÇàµÇÁö¸¸ ±â´É»ó ½ÇÆÐ·Î ÀÎÁöÇØ¾ß ÇÏ´Â °æ¿ì
-    IF SQL%ROWCOUNT = 0 THEN -- °¡Àå ÃÖ±Ù ½ÇÇàµÈ SQL¹®ÀÇ °á°ú°¡ ¸îÇàÀÎÁö È®ÀÎ
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.');
-        DBMS_OUTPUT.PUT_LINE('ºÎ¼­¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.');
+    WHERE department_id = &ë¶€ì„œë²ˆí˜¸;
+    -- ë¶€ì„œë²ˆí˜¸ 0 : ì •ìƒì ìœ¼ë¡œ ìˆ˜í–‰ë˜ì§€ë§Œ ê¸°ëŠ¥ìƒ ì‹¤íŒ¨ë¡œ ì¸ì§€í•´ì•¼ í•˜ëŠ” ê²½ìš°
+    IF SQL%ROWCOUNT = 0 THEN -- ê°€ìž¥ ìµœê·¼ ì‹¤í–‰ëœ SQLë¬¸ì˜ ê²°ê³¼ê°€ ëª‡í–‰ì¸ì§€ í™•ì¸
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œëŠ” ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
+        DBMS_OUTPUT.PUT_LINE('ë¶€ì„œë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.');
     END IF;
 END;
 /
 
 /*
-¿¹¿Ü Æ®·¦ ÇÔ¼ö : Áö±Ý ¹ß»ýÇÑ ¿¡·¯°¡ ¹ºÁö È®ÀÎÇÏ°í ½ÍÀ»¶§
-INSERT ¹®¿¡¼­´Â »ç¿ëºÒ°¡
-SQLCODE : ¿¡·¯ÄÚµå(¼ýÀÚ°ª)
-SQLERRM : ¿¡·¯¸Þ¼¼Áö
+ì˜ˆì™¸ íŠ¸ëž© í•¨ìˆ˜ : ì§€ê¸ˆ ë°œìƒí•œ ì—ëŸ¬ê°€ ë­”ì§€ í™•ì¸í•˜ê³  ì‹¶ì„ë•Œ
+INSERT ë¬¸ì—ì„œëŠ” ì‚¬ìš©ë¶ˆê°€
+SQLCODE : ì—ëŸ¬ì½”ë“œ(ìˆ«ìžê°’)
+SQLERRM : ì—ëŸ¬ë©”ì„¸ì§€
 */
 
--- 2-1-1) ÀÌ¹Ì ¿À¶óÅ¬¿¡ Á¤ÀÇµÇ¾î ÀÖ°í(¿¡·¯ÄÚµå°¡ ÀÖÀ½) ÀÌ¸§µµ Á¸ÀçÇÏ´Â ¿¹¿Ü»çÇ×
+-- 2-1-1) ì´ë¯¸ ì˜¤ë¼í´ì— ì •ì˜ë˜ì–´ ìžˆê³ (ì—ëŸ¬ì½”ë“œê°€ ìžˆìŒ) ì´ë¦„ë„ ì¡´ìž¬í•˜ëŠ” ì˜ˆì™¸ì‚¬í•­
 DECLARE
     v_ename employees.last_name%TYPE;
 BEGIN
     SELECT last_name
     INTO v_ename
     FROM employees
-    WHERE department_id=&ºÎ¼­¹øÈ£;
-    -- ºÎ¼­¹øÈ£ 0 : ORA-01403, NO_DATA_FOUND 
-    -- ºÎ¼­¹øÈ£ 10 : Á¤»ó½ÇÇà
-    -- ºÎ¼­¹øÈ£ 50 : ORA-06512, TOO_MANY_ROWS
-    -- ¿¹¿Ü¸¦ Ã³¸®ÇÏ´õ¶óµµ ½ÇÇàµÇÁö´Â ¾ÊÀ½, ¿À·ù¸¸ »ç¶óÁü
+    WHERE department_id=&ë¶€ì„œë²ˆí˜¸;
+    -- ë¶€ì„œë²ˆí˜¸ 0 : ORA-01403, NO_DATA_FOUND 
+    -- ë¶€ì„œë²ˆí˜¸ 10 : ì •ìƒì‹¤í–‰
+    -- ë¶€ì„œë²ˆí˜¸ 50 : ORA-06512, TOO_MANY_ROWS
+    -- ì˜ˆì™¸ë¥¼ ì²˜ë¦¬í•˜ë”ë¼ë„ ì‹¤í–‰ë˜ì§€ëŠ” ì•ŠìŒ, ì˜¤ë¥˜ë§Œ ì‚¬ë¼ì§
     DBMS_OUTPUT.PUT_LINE(v_ename);
     
 EXCEPTION
     WHEN NO_DATA_FOUND THEN
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øÀÌ ¾ø½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ ë¶€ì„œì— ì†í•œ ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤.');
     WHEN OTHERS THEN -- 
-        DBMS_OUTPUT.PUT_LINE('±âÅ¸ ¿¹¿Ü»çÇ×ÀÌ ¹ß»ýÇß½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('ê¸°íƒ€ ì˜ˆì™¸ì‚¬í•­ì´ ë°œìƒí–ˆìŠµë‹ˆë‹¤.');
         DBMS_OUTPUT.PUT('ORA' || SQLCODE || ' : ');
         DBMS_OUTPUT.PUT_LINE(SUBSTR(SQLERRM,12));
-        DBMS_OUTPUT.PUT_LINE('ºí·ÏÀÌ Á¾·áµÇ¾ú½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('ë¸”ë¡ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.');
 END;
 /
 
@@ -382,116 +382,116 @@ as
   from   employees
   where  employee_id < 200;
 
-emp_test Å×ÀÌºí¿¡¼­ »ç¿ø¹øÈ£¸¦ »ç¿ë(&Ä¡È¯º¯¼ö »ç¿ë)ÇÏ¿© »ç¿øÀ» »èÁ¦ÇÏ´Â PL/SQLÀ» ÀÛ¼ºÇÏ½Ã¿À.
-(´Ü, »ç¿ëÀÚ Á¤ÀÇ ¿¹¿Ü»çÇ× »ç¿ë)
-(´Ü, »ç¿øÀÌ ¾øÀ¸¸é "ÇØ´ç»ç¿øÀÌ ¾ø½À´Ï´Ù.'¶ó´Â ¿À·ù¸Þ½ÃÁö ¹ß»ý)
+emp_test í…Œì´ë¸”ì—ì„œ ì‚¬ì›ë²ˆí˜¸ë¥¼ ì‚¬ìš©(&ì¹˜í™˜ë³€ìˆ˜ ì‚¬ìš©)í•˜ì—¬ ì‚¬ì›ì„ ì‚­ì œí•˜ëŠ” PL/SQLì„ ìž‘ì„±í•˜ì‹œì˜¤.
+(ë‹¨, ì‚¬ìš©ìž ì •ì˜ ì˜ˆì™¸ì‚¬í•­ ì‚¬ìš©)
+(ë‹¨, ì‚¬ì›ì´ ì—†ìœ¼ë©´ "í•´ë‹¹ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤.'ë¼ëŠ” ì˜¤ë¥˜ë©”ì‹œì§€ ë°œìƒ)
 */
 DECLARE
     e_emp_not_found EXCEPTION;
 BEGIN
     DELETE FROM emp_test
-    WHERE employee_id = &»ç¿ø¹øÈ£;
+    WHERE employee_id = &ì‚¬ì›ë²ˆí˜¸;
     
-    IF SQL%ROWCOUNT = 0 THEN -- °¡Àå ÃÖ±Ù¿¡ ½ÇÇàµÈ SQL¹®ÀÇ °á°ú·Î ¹ß»ýÇÑ Çà ¼ýÀÚ
+    IF SQL%ROWCOUNT = 0 THEN -- ê°€ìž¥ ìµœê·¼ì— ì‹¤í–‰ëœ SQLë¬¸ì˜ ê²°ê³¼ë¡œ ë°œìƒí•œ í–‰ ìˆ«ìž
         RAISE e_emp_not_found;
     END IF;
 EXCEPTION
     WHEN e_emp_not_found THEN
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç»ç¿øÀÌ ¾ø½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤.');
 END;
 /
 
 DECLARE
-    emp_test_del_fail EXCEPTION; -- ¿¹¿Ü Á¤ÀÇ
+    emp_test_del_fail EXCEPTION; -- ì˜ˆì™¸ ì •ì˜
 BEGIN
     DELETE FROM emp_test
-    -- ¸¸¾à È¬µû¿ÈÇ¥ ¾øÀÌ ³ÖÀ¸¸é ±×³É º¯¼ö·Î ÀÎ½ÄÇÑ´Ù.
-    -- ¸¸¾à¿¡ Ä¡È¯º¯¼ö¿¡ ¹®ÀÚ¸¦ ³Ö°í ½ÍÀ¸¸é Ä¡È¯º¯¼ö±îÁö È¬µû¿ÈÇ¥·Î ¹­°Å³ª, ÀÔ·ÂÇÒ¶§ È¬µû¿ÈÇ¥ ÀÔ·Â;
-    WHERE employee_id = '&»ç¿ø¹øÈ£';
+    -- ë§Œì•½ í™‘ë”°ì˜´í‘œ ì—†ì´ ë„£ìœ¼ë©´ ê·¸ëƒ¥ ë³€ìˆ˜ë¡œ ì¸ì‹í•œë‹¤.
+    -- ë§Œì•½ì— ì¹˜í™˜ë³€ìˆ˜ì— ë¬¸ìžë¥¼ ë„£ê³  ì‹¶ìœ¼ë©´ ì¹˜í™˜ë³€ìˆ˜ê¹Œì§€ í™‘ë”°ì˜´í‘œë¡œ ë¬¶ê±°ë‚˜, ìž…ë ¥í• ë•Œ í™‘ë”°ì˜´í‘œ ìž…ë ¥;
+    WHERE employee_id = '&ì‚¬ì›ë²ˆí˜¸';
     
-    IF SQL%ROWCOUNT = 0 THEN -- »èÁ¦µÈ ÇàÀÌ ¾øÀ¸¸é ¿¡·¯ ¹ß»ý
+    IF SQL%ROWCOUNT = 0 THEN -- ì‚­ì œëœ í–‰ì´ ì—†ìœ¼ë©´ ì—ëŸ¬ ë°œìƒ
         RAISE emp_test_del_fail;
     END IF;
-EXCEPTION -- 100%·Î Ã³¸®´Â ºÒ°¡´É
-    WHEN emp_test_del_fail THEN -- ¿¡·¯ ¸Þ¼¼Áö Ãâ·Â
-       DBMS_OUTPUT.PUT_LINE('ÇØ´ç»ç¿øÀÌ ¾ø½À´Ï´Ù.');
+EXCEPTION -- 100%ë¡œ ì²˜ë¦¬ëŠ” ë¶ˆê°€ëŠ¥
+    WHEN emp_test_del_fail THEN -- ì—ëŸ¬ ë©”ì„¸ì§€ ì¶œë ¥
+       DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤.');
 END;
 /
 
 /*
-³»Àå ÇÁ·Î½ÃÀú
-CREATE [OR REPLACE] PROCEDURE ÀÌ¸§
-    (¸Å°³º¯¼ö1 [MODE] µ¥ÀÌÅÍÅ¸ÀÔ1, -- MODE : IN, OUT, IN OUT
-     ¸Å°³º¯¼ö2 [MODE] µ¥ÀÌÅÍÅ¸ÀÔ2)
+ë‚´ìž¥ í”„ë¡œì‹œì €
+CREATE [OR REPLACE] PROCEDURE ì´ë¦„
+    (ë§¤ê°œë³€ìˆ˜1 [MODE] ë°ì´í„°íƒ€ìž…1, -- MODE : IN, OUT, IN OUT
+     ë§¤ê°œë³€ìˆ˜2 [MODE] ë°ì´í„°íƒ€ìž…2)
 IS|AS
 PL/SQL Block; (BEGIN EXCEPTION END; /)
 
--- ·¹ÄÚµå Å¸ÀÔ, Å×ÀÌºí Å¸ÀÔÀº ´Ù¸¥µ¥¼­ ¸ô¶ó¼­ Àß ¾È¾¸
+-- ë ˆì½”ë“œ íƒ€ìž…, í…Œì´ë¸” íƒ€ìž…ì€ ë‹¤ë¥¸ë°ì„œ ëª°ë¼ì„œ ìž˜ ì•ˆì”€
 
-IN : 1.±âº»°ª(Ç¥±â¾øÀ¸¸é), 2/.°ªÀ» ¼­ºêÇÁ·Î±×·¥¿¡ Àü´Þ(ÇÁ·Î½ÃÀú, ÇÔ¼ö)
-OUT : 1.ÁöÁ¤ °ªÀ» È£ÃâÈ¯°æÀ¸·Î ¹ÝÈ¯
-IN OUT : 1.°ªÀ» ¼­ºêÇÁ·Î±×·¥¿¡ Àü´ÞÇÏ°í 2.È£ÃâÈ¯°æÀ¸·Î ¹ÝÈ¯
-IN Çü½Ä ¸Å°³º¯¼ö°¡ »ó¼ö·Î ÀÛ¿ë -> °ªÀ» º¯°æÇÒ ¼ö ¾ø´Ù.
-OUT : ÃÊ±âÈ­µÇÁö ¾ÊÀº º¯¼ö
+IN : 1.ê¸°ë³¸ê°’(í‘œê¸°ì—†ìœ¼ë©´), 2/.ê°’ì„ ì„œë¸Œí”„ë¡œê·¸ëž¨ì— ì „ë‹¬(í”„ë¡œì‹œì €, í•¨ìˆ˜)
+OUT : 1.ì§€ì • ê°’ì„ í˜¸ì¶œí™˜ê²½ìœ¼ë¡œ ë°˜í™˜
+IN OUT : 1.ê°’ì„ ì„œë¸Œí”„ë¡œê·¸ëž¨ì— ì „ë‹¬í•˜ê³  2.í˜¸ì¶œí™˜ê²½ìœ¼ë¡œ ë°˜í™˜
+IN í˜•ì‹ ë§¤ê°œë³€ìˆ˜ê°€ ìƒìˆ˜ë¡œ ìž‘ìš© -> ê°’ì„ ë³€ê²½í•  ìˆ˜ ì—†ë‹¤.
+OUT : ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ ë³€ìˆ˜
 
 
-OUT / IN OUT¹Ýµå½Ã °ªÀ» °¡Á®¾ß ÇÏ¹Ç·Î º¯¼ö¿¡´Ù°¡ ÀúÀåÇÔ
+OUT / IN OUTë°˜ë“œì‹œ ê°’ì„ ê°€ì ¸ì•¼ í•˜ë¯€ë¡œ ë³€ìˆ˜ì—ë‹¤ê°€ ì €ìž¥í•¨
 */
 
 -- PROCEDURE
--- 1)¹®¹ý
-CREATE PROCUDRUE ÇÁ·Î½ÃÀú¸í
-    (¸Å°³º¯¼ö¸í [¸ðµå] µ¥ÀÌÅÍÅ¸ÀÔ, ...)
+-- 1)ë¬¸ë²•
+CREATE PROCUDRUE í”„ë¡œì‹œì €ëª…
+    (ë§¤ê°œë³€ìˆ˜ëª… [ëª¨ë“œ] ë°ì´í„°íƒ€ìž…, ...)
 IS
-    -- ¼±¾ðºÎ : ·ÎÄÃº¯¼ö, Ä¿¼­, ¿¹¿Í¼­Çë µîÀ» ¼±¾ð
+    -- ì„ ì–¸ë¶€ : ë¡œì»¬ë³€ìˆ˜, ì»¤ì„œ, ì˜ˆì™€ì„œí— ë“±ì„ ì„ ì–¸
 BEGIN
-    -- PROCEDURE°¡ ¼öÇàÇÒ ÄÚµÎ
+    -- PROCEDUREê°€ ìˆ˜í–‰í•  ì½”ë‘
 EXCEPTION
-    --¿¡·¯Ã³¸®
+    --ì—ëŸ¬ì²˜ë¦¬
 END;
 /
 
--- 2) Àû¿ë
-DROP PROCEDURE test_pro; -- °°ÀºÀÌ¸§À¸·Î »ý¼º ºÒ°¡
+-- 2) ì ìš©
+DROP PROCEDURE test_pro; -- ê°™ì€ì´ë¦„ìœ¼ë¡œ ìƒì„± ë¶ˆê°€
 CREATE PROCEDURE test_pro
-   (p_msg VARCHAR2) -- ¾Ï½ÃÀûÀ¸·Î INÀ¸·Î ¼±¾ð, VARCHAR2(100)Àº ¾ÈµÊ
+   (p_msg VARCHAR2) -- ì•”ì‹œì ìœ¼ë¡œ INìœ¼ë¡œ ì„ ì–¸, VARCHAR2(100)ì€ ì•ˆë¨
 IS
     v_msg VARCHAR2(1000) := 'Hello';
 BEGIN
     DBMS_OUTPUT.PUT_LINE(v_msg||p_msg);
 EXCEPTION
     WHEN NO_DATA_FOUND THEN
-        DBMS_OUTPUT.PUT_LINE('µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('ë°ì´í„°ê°€ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
 END;
 /
 
--- 3) ½ÇÇà
+-- 3) ì‹¤í–‰
 
 DECLARE
     v_result VARCHAR2(1000);
 BEGIN
-    -- ¿À¶óÅ¬ÀÌ ÇöÀç ½ÇÇàÇÏ´Â °´Ã¼°¡ PROCEDUREÀÎÁö FUNCTIONÀÎÁö ±¸ºÐÇÏ´Â ¹æ¹ý
-    --     => È£ÃâÇüÅÂ (¿ÞÂÊ¿¡ º¯¼ö°¡ Á¸ÀçÇÏ´Â °¡)
+    -- ì˜¤ë¼í´ì´ í˜„ìž¬ ì‹¤í–‰í•˜ëŠ” ê°ì²´ê°€ PROCEDUREì¸ì§€ FUNCTIONì¸ì§€ êµ¬ë¶„í•˜ëŠ” ë°©ë²•
+    --     => í˜¸ì¶œí˜•íƒœ (ì™¼ìª½ì— ë³€ìˆ˜ê°€ ì¡´ìž¬í•˜ëŠ” ê°€)
     -- v_result := test_pro('PL/SQL'); 
-    -- ÇÁ·Î½ÃÀú¸¦ º¯¼ö¿¡ ´ã¾Æ¹ö¸®¸é ÇÔ¼ö·Î ÀÎ½ÄÇØ¼­ ¸øÃ£À½
+    -- í”„ë¡œì‹œì €ë¥¼ ë³€ìˆ˜ì— ë‹´ì•„ë²„ë¦¬ë©´ í•¨ìˆ˜ë¡œ ì¸ì‹í•´ì„œ ëª»ì°¾ìŒ
     test_pro('PL/SQL');
 END;
 /
--- ÇÁ·Î½ÃÀú ÇÏ³ª¸¸ È£ÃâÇÒ¶§ »ç¿ë°¡´É, ¿·¿¡´Ù°¡ ÁÖ¼®´Þ¸é ½ÇÇà¾ÈµÊ
+-- í”„ë¡œì‹œì € í•˜ë‚˜ë§Œ í˜¸ì¶œí• ë•Œ ì‚¬ìš©ê°€ëŠ¥, ì˜†ì—ë‹¤ê°€ ì£¼ì„ë‹¬ë©´ ì‹¤í–‰ì•ˆë¨
 --PLS-00103: Encountered the symbol "end-of-file" when expecting one of the following:
 EXECUTE test_pro('WORLD');
 
 
--- IN ¸ðµå : È£ÃâÈ¯°æ -> ÇÁ·Î½ÃÀú·Î °ªÀ» Àü´Þ, ÇÁ·Î½ÃÀú ³»ºÎ¿¡¼­ »ó¼öÃë±Þ
+-- IN ëª¨ë“œ : í˜¸ì¶œí™˜ê²½ -> í”„ë¡œì‹œì €ë¡œ ê°’ì„ ì „ë‹¬, í”„ë¡œì‹œì € ë‚´ë¶€ì—ì„œ ìƒìˆ˜ì·¨ê¸‰
 -- PLS-00363: expression 'P_EID' cannot be used as an assignment target
--- => ÀçÇÒ´ç Å¸°ÙÀ¸·Î »ç¿ëÇÒ¼ö ¾ø´Ù : »ó¼öÃë±Þ
+-- => ìž¬í• ë‹¹ íƒ€ê²Ÿìœ¼ë¡œ ì‚¬ìš©í• ìˆ˜ ì—†ë‹¤ : ìƒìˆ˜ì·¨ê¸‰
 DROP PROCEDURE raise_salary;
 CREATE PROCEDURE raise_salary
     (p_eid IN employees.employee_id%TYPE)
 IS
 
 BEGIN
-   -- ERROR : ÇÁ·Î½ÃÀú ³»ºÎ¿¡¼­ »ó¼ö Ãë±ÞµÇ¹Ç·Î °ªÀ» º¯°æÇÒ ¼ö ¾øÀ½
+   -- ERROR : í”„ë¡œì‹œì € ë‚´ë¶€ì—ì„œ ìƒìˆ˜ ì·¨ê¸‰ë˜ë¯€ë¡œ ê°’ì„ ë³€ê²½í•  ìˆ˜ ì—†ìŒ
    -- p_eid := 100;
    
    UPDATE employees
@@ -505,19 +505,19 @@ FROM employees
 WHERE employee_id IN (100, 130, 149);
 
 DECLARE
-    v_first NUMBER(3,0) := 100; -- ÃÊ±âÈ­µÈ º¯¼ö
-    v_second CONSTANT NUMBER(3,0) := 149; -- »ó¼ö
+    v_first NUMBER(3,0) := 100; -- ì´ˆê¸°í™”ëœ ë³€ìˆ˜
+    v_second CONSTANT NUMBER(3,0) := 149; -- ìƒìˆ˜
 BEGIN
-    raise_salary(100);          -- ¸®ÅÍ·²
-    raise_salary(v_first+30);   -- Ç¥Çö½Ä
-    raise_salary(v_first);      -- ÃÊ±âÈ­µÈ º¯¼ö
-    raise_salary(v_second);     -- »ó¼ö
+    raise_salary(100);          -- ë¦¬í„°ëŸ´
+    raise_salary(v_first+30);   -- í‘œí˜„ì‹
+    raise_salary(v_first);      -- ì´ˆê¸°í™”ëœ ë³€ìˆ˜
+    raise_salary(v_second);     -- ìƒìˆ˜
 END;
 /
 
 ROLLBACK;
 
--- OUT ¸ðµå : ÇÁ·Î½ÃÀú -> È£ÃâÈ¯°æÀ¸·Î °ªÀ» ¹ÝÈ¯, ÇÁ·Î½ÃÀú ³»ºÎ¿¡¼­ ÃÊ±âÈ­µÇÁö ¾ÊÀº º¯¼ö·Î ÀÎÁö
+-- OUT ëª¨ë“œ : í”„ë¡œì‹œì € -> í˜¸ì¶œí™˜ê²½ìœ¼ë¡œ ê°’ì„ ë°˜í™˜, í”„ë¡œì‹œì € ë‚´ë¶€ì—ì„œ ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ ë³€ìˆ˜ë¡œ ì¸ì§€
 CREATE PROCEDURE test_p_out
     (p_num IN NUMBER,
      p_out OUT NUMBER)
@@ -526,9 +526,9 @@ IS
 BEGIN
     DBMS_OUTPUT.PUT_LINE('IN : ' || p_num);
     DBMS_OUTPUT.PUT_LINE('OUT : ' || p_out);
-END; -- ºí·ÏÀÌ Á¾·áµÇ´Â ¼ø°£ OUT ¸ðµåÀÇ ¸Å°³º¯¼ö°¡ °¡Áö°í ÀÖ´Â °ªÀÌ ±×´ë·Î ¹ÝÈ¯ 
+END; -- ë¸”ë¡ì´ ì¢…ë£Œë˜ëŠ” ìˆœê°„ OUT ëª¨ë“œì˜ ë§¤ê°œë³€ìˆ˜ê°€ ê°€ì§€ê³  ìžˆëŠ” ê°’ì´ ê·¸ëŒ€ë¡œ ë°˜í™˜ 
 /
--- ½ÇÇàÄÚµå 
+-- ì‹¤í–‰ì½”ë“œ 
 DECLARE
     v_result NUMBER(4,0) := 1234;
 BEGIN
@@ -538,7 +538,7 @@ BEGIN
 END;
 /
 
--- ´õÇÏ±â
+-- ë”í•˜ê¸°
 CREATE PROCEDURE pro_plus
     (p_x IN NUMBER,
      p_y IN NUMBER,
@@ -557,11 +557,11 @@ BEGIN
 END;
 /
 
--- IN OUT ¸ðµå : IN ¸ðµå¿Í OUT ¸ðµå µÎ°¡Áö¸¦ ÇÏ³ªÀÇ º¯¼ö·Î Ã³¸®
--- => ¿ø·¡ µ¥ÀÌÅÍ°¡ »ç¶óÁü (¿ø·¡ µ¥ÀÌÅÍ°¡ º¯°æµÇ¾î¾ß ÇÏ´Â °æ¿ì¿¡¸¸ »ç¿ë)
--- INÀº »ó¼ö, OUTÀº ÃÊ±âÈ­µÇÁö ¾ÊÀº º¯¼ö
+-- IN OUT ëª¨ë“œ : IN ëª¨ë“œì™€ OUT ëª¨ë“œ ë‘ê°€ì§€ë¥¼ í•˜ë‚˜ì˜ ë³€ìˆ˜ë¡œ ì²˜ë¦¬
+-- => ì›ëž˜ ë°ì´í„°ê°€ ì‚¬ë¼ì§ (ì›ëž˜ ë°ì´í„°ê°€ ë³€ê²½ë˜ì–´ì•¼ í•˜ëŠ” ê²½ìš°ì—ë§Œ ì‚¬ìš©)
+-- INì€ ìƒìˆ˜, OUTì€ ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ ë³€ìˆ˜
 -- '01012341234' => '010-1234-1234'
--- ³¯Â¥¸¦ ÁöÁ¤ÇÑ Æ÷¸ËÀ¸·Î º¯°æ : '24/11/27' => '24³â11¿ù27ÀÏ'
+-- ë‚ ì§œë¥¼ ì§€ì •í•œ í¬ë§·ìœ¼ë¡œ ë³€ê²½ : '24/11/27' => '24ë…„11ì›”27ì¼'
 DROP PROCEDURE format_phone;
 CREATE PROCEDURE format_phone
     (p_phone_no IN OUT VARCHAR2)
@@ -598,23 +598,23 @@ FROM dual;
 
 /*
 1.
-ÁÖ¹Îµî·Ï¹øÈ£¸¦ ÀÔ·ÂÇÏ¸é 
-´ÙÀ½°ú °°ÀÌ Ãâ·ÂµÇµµ·Ï yedam_ju ÇÁ·Î½ÃÀú¸¦ ÀÛ¼ºÇÏ½Ã¿À.
+ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸ë¥¼ ìž…ë ¥í•˜ë©´ 
+ë‹¤ìŒê³¼ ê°™ì´ ì¶œë ¥ë˜ë„ë¡ yedam_ju í”„ë¡œì‹œì €ë¥¼ ìž‘ì„±í•˜ì‹œì˜¤.
 
 EXECUTE yedam_ju('9501011667777')
 EXECUTE yedam_ju('1511013689977')
 
-=> ¸Å°³º¯¼ö°¡ ¸®ÅÍ·² => IN ¸Å°³º¯¼ö ÇÏ³ª»Ó + Á¤ÇØÁø Ãâ·Â±¸¹® => DBMS_OUTPUT.PUT_LINEÀ» ³»ºÎ¿¡¼­ ½ÇÇà
+=> ë§¤ê°œë³€ìˆ˜ê°€ ë¦¬í„°ëŸ´ => IN ë§¤ê°œë³€ìˆ˜ í•˜ë‚˜ë¿ + ì •í•´ì§„ ì¶œë ¥êµ¬ë¬¸ => DBMS_OUTPUT.PUT_LINEì„ ë‚´ë¶€ì—ì„œ ì‹¤í–‰
 
 */
 DROP PROCEDURE yedam_ju;
-CREATE PROCEDURE yedam_ju -- ÁÖ¹Î¹øÈ£ 2000³â»ýÀº 00À¸·Î ½ÃÀÛÇØ¼­ 0ÀÌ ºüÁ®¹ö¸² -> ¹®ÀÚ·Î Ã³¸®ÇØ¾ßµÊ
+CREATE PROCEDURE yedam_ju -- ì£¼ë¯¼ë²ˆí˜¸ 2000ë…„ìƒì€ 00ìœ¼ë¡œ ì‹œìž‘í•´ì„œ 0ì´ ë¹ ì ¸ë²„ë¦¼ -> ë¬¸ìžë¡œ ì²˜ë¦¬í•´ì•¼ë¨
     (p_ssn IN VARCHAR2)
 IS
     v_result VARCHAR2(30);
 BEGIN
-    v_result := SUBSTR(p_ssn,1,6) -- ¾Õ 6ÀÚ¸®
-                -- || '-' || SUBSTR(p_ssn,7); -- µÚ 7ÀÚ¸®
+    v_result := SUBSTR(p_ssn,1,6) -- ì•ž 6ìžë¦¬
+                -- || '-' || SUBSTR(p_ssn,7); -- ë’¤ 7ìžë¦¬
                 || '-' || RPAD(SUBSTR(p_ssn,7,1),7,'*');
     DBMS_OUTPUT.PUT_LINE(v_result);
 END;
@@ -629,8 +629,7 @@ IS
     v_jumin VARCHAR2(100);
 BEGIN
     v_jumin := SUBSTR (p_jumin, 1,6)||
-               '-'|| SUBSTR (p_jumin, 7,1)
-               || '******';
+               '-'|| RPAD(SUBSTR (p_jumin, 7,1), 13-6, '*');
     DBMS_OUTPUT.PUT_LINE(v_jumin);
 END;
 /
@@ -639,10 +638,10 @@ EXECUTE yedam_ju('9501011667777');
 
 /*
 2.
-»ç¿ø¹øÈ£¸¦ ÀÔ·ÂÇÒ °æ¿ì
-»èÁ¦ÇÏ´Â TEST_PRO ÇÁ·Î½ÃÀú¸¦ »ý¼ºÇÏ½Ã¿À.
-´Ü, ÇØ´ç»ç¿øÀÌ ¾ø´Â °æ¿ì "ÇØ´ç»ç¿øÀÌ ¾ø½À´Ï´Ù." Ãâ·Â
-¿¹) EXECUTE TEST_PRO(176)
+ì‚¬ì›ë²ˆí˜¸ë¥¼ ìž…ë ¥í•  ê²½ìš°
+ì‚­ì œí•˜ëŠ” TEST_PRO í”„ë¡œì‹œì €ë¥¼ ìƒì„±í•˜ì‹œì˜¤.
+ë‹¨, í•´ë‹¹ì‚¬ì›ì´ ì—†ëŠ” ê²½ìš° "í•´ë‹¹ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤." ì¶œë ¥
+ì˜ˆ) EXECUTE TEST_PRO(176)
 */
 DROP PROCEDURE test_pro;
 CREATE PROCEDURE test_pro
@@ -654,7 +653,7 @@ BEGIN
     WHERE employee_id = p_empid;
     
     IF SQL%ROWCOUNT = 0 THEN
-        DBMS_OUTPUT.PUT_LINE('ÇØ´ç»ç¿øÀÌ ¾ø½À´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('í•´ë‹¹ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤.');
     END IF;
 END;
 /
@@ -662,12 +661,12 @@ END;
 
 /*
 3.
-´ÙÀ½°ú °°ÀÌ PL/SQL ºí·ÏÀ» ½ÇÇàÇÒ °æ¿ì 
-»ç¿ø¹øÈ£¸¦ ÀÔ·ÂÇÒ °æ¿ì »ç¿øÀÇ ÀÌ¸§(last_name)ÀÇ Ã¹¹øÂ° ±ÛÀÚ¸¦ Á¦¿ÜÇÏ°í´Â
-'*'°¡ Ãâ·ÂµÇµµ·Ï yedam_emp ÇÁ·Î½ÃÀú¸¦ »ý¼ºÇÏ½Ã¿À.
+ë‹¤ìŒê³¼ ê°™ì´ PL/SQL ë¸”ë¡ì„ ì‹¤í–‰í•  ê²½ìš° 
+ì‚¬ì›ë²ˆí˜¸ë¥¼ ìž…ë ¥í•  ê²½ìš° ì‚¬ì›ì˜ ì´ë¦„(last_name)ì˜ ì²«ë²ˆì§¸ ê¸€ìžë¥¼ ì œì™¸í•˜ê³ ëŠ”
+'*'ê°€ ì¶œë ¥ë˜ë„ë¡ yedam_emp í”„ë¡œì‹œì €ë¥¼ ìƒì„±í•˜ì‹œì˜¤.
 
-½ÇÇà) EXECUTE yedam_emp(176)
-½ÇÇà°á°ú) TAYLOR -> T*****  <- ÀÌ¸§ Å©±â¸¸Å­ º°Ç¥(*) Ãâ·Â
+ì‹¤í–‰) EXECUTE yedam_emp(176)
+ì‹¤í–‰ê²°ê³¼) TAYLOR -> T*****  <- ì´ë¦„ í¬ê¸°ë§Œí¼ ë³„í‘œ(*) ì¶œë ¥
 */
 
 DROP PROCEDURE yedam_emp;
@@ -689,20 +688,55 @@ END;
 
 /*
 4.
-ºÎ¼­¹øÈ£¸¦ ÀÔ·ÂÇÒ °æ¿ì 
-ÇØ´çºÎ¼­¿¡ ±Ù¹«ÇÏ´Â »ç¿øÀÇ »ç¿ø¹øÈ£, »ç¿øÀÌ¸§(last_name), ¿¬Â÷¸¦ Ãâ·ÂÇÏ´Â get_emp ÇÁ·Î½ÃÀú¸¦ »ý¼ºÇÏ½Ã¿À. 
-(cursor »ç¿ëÇØ¾ß ÇÔ)
-´Ü, »ç¿øÀÌ ¾øÀ» °æ¿ì "ÇØ´ç ºÎ¼­¿¡´Â »ç¿øÀÌ ¾ø½À´Ï´Ù."¶ó°í Ãâ·Â(exception »ç¿ë)
-½ÇÇà) EXECUTE get_emp(30)
+ë¶€ì„œë²ˆí˜¸ë¥¼ ìž…ë ¥í•  ê²½ìš° 
+í•´ë‹¹ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ì˜ ì‚¬ì›ë²ˆí˜¸, ì‚¬ì›ì´ë¦„(last_name), ì—°ì°¨ë¥¼ ì¶œë ¥í•˜ëŠ” get_emp í”„ë¡œì‹œì €ë¥¼ ìƒì„±í•˜ì‹œì˜¤. 
+(cursor ì‚¬ìš©í•´ì•¼ í•¨)
+ë‹¨, ì‚¬ì›ì´ ì—†ì„ ê²½ìš° "í•´ë‹¹ ë¶€ì„œì—ëŠ” ì‚¬ì›ì´ ì—†ìŠµë‹ˆë‹¤."ë¼ê³  ì¶œë ¥(exception ì‚¬ìš©)
+ì‹¤í–‰) EXECUTE get_emp(30)
 */
 
+DROP PROCEDURE get_emp;
+CREATE OR REPLACE PROCEDURE get_emp
+    (p_departid IN NUMBER)
+IS
+    CURSOR emp_cursor IS
+        SELECT employee_id, last_name, TRUNC(MONTHS_BETWEEN (sysdate,hire_date)/12) year
+        FROM employees
+        WHERE department_id = p_departid;
+BEGIN
+    FOR emp_rec IN emp_cursor LOOP
+        DBMS_OUTPUT.PUT(emp_rec.employee_id);
+        DBMS_OUTPUT.PUT(', '||emp_rec.last_name);
+        DBMS_OUTPUT.PUT_LINE(', '||emp_rec.year);
+    END LOOP;
+END;
+/
 
 
 /*
 5.
-Á÷¿øµéÀÇ »ç¹ø, ±Þ¿© Áõ°¡Ä¡¸¸ ÀÔ·ÂÇÏ¸é EmployeesÅ×ÀÌºí¿¡ ½±°Ô »ç¿øÀÇ ±Þ¿©¸¦ °»½ÅÇÒ ¼ö ÀÖ´Â y_update ÇÁ·Î½ÃÀú¸¦ ÀÛ¼ºÇÏ¼¼¿ä. 
-¸¸¾à ÀÔ·ÂÇÑ »ç¿øÀÌ ¾ø´Â °æ¿ì¿¡´Â ¡®No search employee!!¡¯¶ó´Â ¸Þ½ÃÁö¸¦ Ãâ·ÂÇÏ¼¼¿ä.(¿¹¿ÜÃ³¸®)
-½ÇÇà) EXECUTE y_update(200, 10)
+ì§ì›ë“¤ì˜ ì‚¬ë²ˆ, ê¸‰ì—¬ ì¦ê°€ì¹˜ë§Œ ìž…ë ¥í•˜ë©´ Employeesí…Œì´ë¸”ì— ì‰½ê²Œ ì‚¬ì›ì˜ ê¸‰ì—¬ë¥¼ ê°±ì‹ í•  ìˆ˜ ìžˆëŠ” y_update í”„ë¡œì‹œì €ë¥¼ ìž‘ì„±í•˜ì„¸ìš”. 
+ë§Œì•½ ìž…ë ¥í•œ ì‚¬ì›ì´ ì—†ëŠ” ê²½ìš°ì—ëŠ” â€˜No search employee!!â€™ë¼ëŠ” ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•˜ì„¸ìš”.(ì˜ˆì™¸ì²˜ë¦¬)
+ì‹¤í–‰) EXECUTE y_update(200, 10)
 */
 
-
+DROP PROCEDURE y_update;
+CREATE PROCEDURE y_update
+    (p_empid IN NUMBER,
+     p_inc_sal IN NUMBER)
+IS
+    v_sal_fail EXCEPTION;
+BEGIN
+    UPDATE employees
+    SET salary = salary + p_inc_sal
+    WHERE employee_id = p_empid;
+    
+    IF SQL%ROWCOUNT = 0 THEN
+        RAISE v_sal_fail;
+    END IF;
+EXCEPTION
+    WHEN v_sal_fail THEN
+        DBMS_OUTPUT.PUT_LINE ('No search employee!!');
+END;
+/
+EXECUTE y_update(999, 10);
